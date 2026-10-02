@@ -2,367 +2,1845 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Moments & Equilibrium | 力矩與平衡</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14273e">
+<title>Moments &amp; Equilibrium | 力矩與平衡</title>
 <style>
-:root{
-  --ink:#10212b; --muted:#52636c; --paper:#f6f9fa; --panel:#fff;
-  --blue:#1267b3; --red:#c62828; --green:#16803c; --amber:#b96b00;
-  --purple:#7137a8; --orange:#dc6f00; --grey:#5c6670; --line:#ccd8dc;
-  --focus:#ffbf00;
+:root {
+  color-scheme: light;
+  --ink: #14273e;
+  --muted: #4b6075;
+  --paper: #eef3f8;
+  --card: #ffffff;
+  --line: #c5d1de;
+  --blue: #075fbb;
+  --red: #b82236;
+  --green: #157442;
+  --orange: #bb5700;
+  --purple: #7240b3;
+  --grey: #616b77;
 }
-*{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.4 Arial,sans-serif}
-button,input,textarea,select{font:inherit} button,input,select{min-height:44px} button{cursor:pointer;border:1px solid #8aa0aa;border-radius:8px;background:#fff;color:var(--ink);padding:7px 11px;font-weight:700}
-button:hover{background:#edf7fb} button:focus,input:focus,textarea:focus,select:focus{outline:3px solid var(--focus);outline-offset:2px}
-button.primary{background:#096b9f;color:#fff;border-color:#096b9f} button.warn{background:#fff2df;border-color:#b96b00}
-button:disabled,input:disabled{opacity:.48;cursor:not-allowed}
-header{position:sticky;top:0;z-index:5;background:#102b3b;color:#fff;padding:10px 16px;box-shadow:0 2px 8px #0004}
-.headrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.title{font-weight:800;font-size:21px;margin-right:auto}
-.tabs{display:flex;gap:6px;flex-wrap:wrap}.tab{background:#fff;color:#10212b}.tab.active{background:#ffdc61;border-color:#ffdc61}
-.badge{padding:5px 9px;border-radius:99px;background:#367499;font-size:14px;font-weight:bold}
-main{padding:14px;max-width:1920px;margin:auto}.view{display:none}.view.active{display:block}
-.grid{display:grid;grid-template-columns:minmax(500px,1.85fr) minmax(330px,1fr);gap:14px;align-items:start}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:14px;box-shadow:0 1px 3px #1231}
-.canvasbox{position:relative;background:#fff;border:1px solid var(--line);border-radius:11px;overflow:hidden}
-canvas{display:block;width:100%;height:min(62vh,620px);min-height:410px;touch-action:none}
-.banner{min-height:28px;margin:0 0 10px;padding:5px 9px;border-left:5px solid var(--blue);background:#eaf6ff;font-weight:bold}
-.banner.bad{border-color:var(--red);background:#ffebeb}.banner.good{border-color:var(--green);background:#e9f8ed}
-h2{font-size:20px;margin:0 0 8px}h3{font-size:18px;margin:16px 0 7px;border-bottom:1px solid var(--line)}
-p{margin:7px 0}.small{font-size:14px;color:var(--muted)}.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:8px 0}
-label{font-weight:700}.field{display:grid;gap:4px;margin:9px 0} textarea{width:100%;min-height:75px;padding:8px;border:1px solid #8aa0aa;border-radius:7px;resize:vertical}
-input[type=number]{width:110px;padding:6px;border:1px solid #8aa0aa;border-radius:7px}input[type=range]{min-width:180px;flex:1}
-hr{border:0;border-top:1px solid var(--line);margin:14px 0}.hidden{display:none!important}.ok{color:var(--green);font-weight:bold}.badtext{color:var(--red);font-weight:bold}
-.metric{display:grid;grid-template-columns:155px 1fr auto;gap:7px;align-items:center;margin:7px 0}.bar{height:19px;border:1px solid #93a3aa;border-radius:4px;background:#edf1f2;overflow:hidden}.fill{height:100%;background:var(--purple)}.fill.orange{background:var(--orange)}.fill.green{background:var(--green)}.fill.amber{background:#e2a100}.fill.red{background:var(--red)}
-.checklist label{display:flex;align-items:center;gap:8px;font-weight:normal;min-height:35px}.checklist input{width:20px;height:20px}
-.step{border:1px solid var(--line);border-radius:8px;padding:10px;margin:10px 0}.step h3{margin:0 0 5px;border:0}.feedback{min-height:23px;margin-top:5px;font-weight:bold}
-.modal{position:fixed;inset:0;background:#0008;z-index:20;display:none;align-items:center;justify-content:center;padding:12px}.modal.show{display:flex}.modalbox{background:#fff;width:min(900px,100%);max-height:92vh;overflow:auto;border-radius:12px;padding:18px;box-shadow:0 4px 30px #0008}
-#teacherJSON{font-family:monospace;min-height:230px}.solution{white-space:pre-wrap;background:#f4f7f8;padding:10px;border-radius:7px}
-.note{padding:8px;background:#fff8db;border-left:4px solid #d69c00}.forcekey{font-size:14px;display:flex;gap:12px;flex-wrap:wrap}.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:4px}
-@media(max-width:850px){.grid{grid-template-columns:1fr}canvas{height:50vh;min-height:370px}.title{width:100%;margin-right:0}.metric{grid-template-columns:125px 1fr auto}}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 16px/1.5 Arial, Helvetica, sans-serif;
+}
+button, input, select, textarea { font: inherit; }
+button, select, input:not([type="checkbox"]):not([type="range"]) {
+  min-height: 44px;
+}
+button {
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: white;
+  background: var(--blue);
+  cursor: pointer;
+}
+button.secondary { background: #e8eef5; color: var(--ink); border-color: var(--line); }
+button.warning { background: #8b4700; }
+button.success { background: var(--green); }
+button:disabled { cursor: not-allowed; opacity: .5; }
+button:hover:not(:disabled) { filter: brightness(.94); }
+:focus-visible { outline: 3px solid #e88900; outline-offset: 3px; }
+input, select, textarea {
+  padding: 8px;
+  border: 1px solid #8498ae;
+  border-radius: 7px;
+  background: white;
+  color: var(--ink);
+}
+input[type="number"] { width: 125px; }
+input[type="range"] {
+  width: 100%;
+  min-height: 44px;
+  padding: 0;
+  accent-color: var(--blue);
+}
+input[type="checkbox"] { width: 23px; height: 23px; margin: 0; flex-shrink: 0; }
+textarea { width: 100%; min-height: 82px; resize: vertical; }
+label { cursor: pointer; }
+h1 { font-size: 23px; line-height: 1.25; margin: 0; }
+h2 { font-size: 21px; margin: 0 0 12px; }
+h3 { font-size: 18px; margin: 16px 0 9px; }
+p { margin: 9px 0; }
+header { background: var(--ink); color: white; padding: 14px 18px 0; }
+.header-row, nav, main { max-width: 1800px; margin: auto; }
+.header-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.header-row h1 { flex: 1; }
+.badge {
+  padding: 6px 10px;
+  border-radius: 20px;
+  color: white;
+  background: #355574;
+}
+nav { display: flex; gap: 8px; margin-top: 13px; overflow-x: auto; }
+nav button { border-radius: 8px 8px 0 0; white-space: nowrap; background: #345371; }
+nav button[aria-selected="true"] { background: var(--paper); color: var(--ink); }
+main { padding: 15px; }
+.identity {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.identity label { display: flex; align-items: center; gap: 8px; }
+.identity input { max-width: 210px; }
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.85fr) minmax(370px, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.card {
+  padding: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 3px 12px #14273e09;
+}
+.scene-card { position: sticky; top: 12px; padding: 10px; }
+.canvas-scroll { overflow: auto; border-radius: 8px; background: #f6faff; }
+canvas {
+  display: block;
+  width: 100%;
+  min-width: 720px;
+  height: 630px;
+  touch-action: none;
+  background: #f6faff;
+}
+.legend { display: flex; flex-wrap: wrap; gap: 8px 15px; margin: 12px 4px; }
+.legend span { display: inline-flex; gap: 6px; align-items: center; }
+.swatch { display: inline-block; width: 16px; height: 16px; border-radius: 3px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin: 10px 0; }
+.row .grow { flex: 1; min-width: 100px; }
+.check { display: flex; gap: 9px; align-items: center; min-height: 44px; }
+.field { display: block; margin: 10px 0 6px; font-weight: 700; }
+.question {
+  padding: 12px;
+  border-left: 5px solid var(--blue);
+  border-radius: 6px;
+  background: #edf5ff;
+}
+.note { color: var(--muted); }
+.banner {
+  padding: 12px;
+  border-radius: 8px;
+  background: #eaf0f6;
+  margin: 12px 0;
+}
+.banner.good { background: #e0f3e7; color: #085a30; }
+.banner.caution { background: #fff0d6; color: #754000; }
+.banner.bad { background: #ffe7eb; color: #951426; }
+.feedback { min-height: 26px; margin: 8px 0; }
+.feedback.good { color: #08602d; }
+.feedback.bad { color: #9b182c; }
+.step { border-top: 1px solid var(--line); margin-top: 17px; padding-top: 6px; }
+.choices { display: flex; gap: 8px; flex-wrap: wrap; }
+.choices label {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #f5f8fc;
+}
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 12px 0; }
+.stat { background: #f0f5fa; border-radius: 7px; padding: 10px; }
+.stat span { display: block; }
+.track {
+  height: 24px;
+  position: relative;
+  background: #e6ecf2;
+  border: 1px solid #9fadc0;
+  border-radius: 5px;
+  margin: 8px 0 4px;
+  overflow: hidden;
+}
+.fill { height: 100%; min-width: 0; }
+.limit-line { position: absolute; top: 0; bottom: 0; width: 3px; background: #14273e; }
+.bar-label { display: flex; justify-content: space-between; gap: 10px; }
+.hidden { display: none !important; }
+.modal {
+  position: fixed; inset: 0;
+  display: grid; place-items: center;
+  padding: 16px;
+  z-index: 100;
+  background: #14273ebd;
+}
+.dialog {
+  max-width: 980px; width: 100%; max-height: 92vh;
+  overflow: auto;
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+}
+.dialog-top { display: flex; gap: 12px; align-items: center; justify-content: space-between; }
+#configEditor { min-height: 310px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+.solution { white-space: pre-wrap; background: #f1f5f9; padding: 15px; border-radius: 8px; }
+#copyText { min-height: 290px; }
+details { margin: 12px 0; }
+summary { cursor: pointer; min-height: 44px; padding: 8px; }
+@media (max-width: 1150px) {
+  .layout { grid-template-columns: 1fr; }
+  .scene-card { position: static; }
+  canvas { height: 590px; }
+}
+@media (max-width: 620px) {
+  main { padding: 9px; }
+  header { padding: 11px 10px 0; }
+  h1 { font-size: 20px; }
+  .card { padding: 12px; }
+  .scene-card { padding: 5px; }
+  .stats { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
 </style>
 </head>
 <body>
 <header>
-  <div class="headrow">
-    <div class="title">Moments &amp; Equilibrium | 力矩與平衡</div>
-    <div class="tabs">
-      <button class="tab active" id="tab1" aria-label="Open Task 1">Task 1 – Seesaw 蹺蹺板 (No AI 🚫🤖)</button>
-      <button class="tab" id="tab2" aria-label="Open Task 2">Task 2 – Suspended Platform 吊船 (AI step-check allowed 🤖✅)</button>
-    </div>
-    <button id="langBtn" aria-label="Change language">EN / 繁中</button>
-    <span id="modeBadge" class="badge">Assessment</span>
-    <button id="teacherBtn" aria-label="Open teacher panel">⚙ Teacher</button>
+  <div class="header-row">
+    <h1>Moments &amp; Equilibrium | 力矩與平衡</h1>
+    <span id="modeBadge" class="badge"></span>
+    <button id="languageButton" class="secondary" type="button" aria-label="Change language"></button>
+    <button id="teacherButton" class="secondary" type="button" aria-label="Open teacher panel">⚙</button>
   </div>
+  <nav role="tablist" aria-label="Physics tasks">
+    <button id="tab1" role="tab" aria-selected="true" aria-controls="task1" type="button"></button>
+    <button id="tab2" role="tab" aria-selected="false" aria-controls="task2" type="button"></button>
+  </nav>
 </header>
 
 <main>
-<section id="task1" class="view active">
- <div class="grid">
-  <div>
-   <div class="canvasbox"><canvas id="c1" aria-label="Interactive seesaw simulation"></canvas></div>
-   <div class="card">
-    <div id="t1banner" class="banner">Complete Predict to unlock the simulation.</div>
-    <div class="forcekey"><span><i class="dot" style="background:#c62828"></i>Weight 重量</span><span><i class="dot" style="background:#16803c"></i>Ground normal reaction 法向反作用力</span><span><i class="dot" style="background:#5c6670"></i>Pivot reaction 支點反作用力</span></div>
-    <div id="t1metrics" class="hidden">
-      <h3>Moment panel | 力矩面板</h3>
-      <div class="metric"><span>τ<sub>acw</sub></span><div class="bar"><div id="acwbar" class="fill"></div></div><strong id="acwval"></strong></div>
-      <div class="metric"><span>τ<sub>cw</sub></span><div class="bar"><div id="cwbar" class="fill orange"></div></div><strong id="cwval"></strong></div>
-      <div id="netval"></div><div id="reactionval"></div>
-    </div>
-   </div>
+  <div class="identity">
+    <label><span id="nameLabel"></span><input id="studentName" autocomplete="name" aria-label="Student name"></label>
+    <label><span id="classLabel"></span><input id="studentClass" aria-label="Class"></label>
+    <span id="gravityBadge" class="badge"></span>
   </div>
-  <div class="card">
-   <h2 id="t1heading">Predict → Observe → Explain</h2>
-   <p id="t1question"></p>
-   <div id="predictBox">
-    <div class="field"><label for="t1working">PREDICT: Show your working</label><textarea id="t1working" aria-label="Task 1 prediction working"></textarea></div>
-    <div class="row"><label for="t1answer">Final answer:</label><input id="t1answer" type="number" step="0.001" aria-label="Task 1 answer in kilograms"><span>kg</span></div>
-    <label class="checklist"><input id="noAI" type="checkbox" aria-label="No AI declaration"> I completed Task 1 without using AI tools.</label>
-    <div class="row"><button id="submitPredict" class="primary" aria-label="Submit prediction">Submit prediction</button><span id="predictFeedback" class="feedback"></span></div>
-   </div>
-   <div id="observeBox" class="hidden">
-    <h3>OBSERVE</h3>
-    <div class="field"><label>Left load mass / 左方砝碼質量</label><div class="row"><button id="minusMass" aria-label="Decrease mass">−0.1 kg</button><input id="massSlider" type="range" min="0" max="20" step=".01" aria-label="Left load mass slider"><input id="massBox" type="number" min="0" max="20" step=".01" aria-label="Left load mass number"><button id="plusMass" aria-label="Increase mass">+0.1 kg</button><span>kg</span></div></div>
-    <div id="positionControl" class="field hidden"><label>Distance left of pivot / 距支點左方</label><div class="row"><input id="distanceSlider" type="range" min=".05" max="1" step=".05" aria-label="Left load distance"><strong id="distanceText"></strong></div></div>
-    <div class="row"><label><input id="rodWeightToggle" type="checkbox"> Include rod weight</label><button id="holdLevel" aria-label="Hold level and release">Hold level &amp; release</button><button id="challenge" class="warn" aria-label="New challenge">Challenge</button></div>
-    <hr><div class="field"><label for="t1explain">EXPLAIN: Why is the ground reaction on the right end zero at the maximum mass?</label><textarea id="t1explain" aria-label="Task 1 explanation"></textarea></div>
-    <div id="hintBox" class="note">Observe what happens as you approach the maximum mass.</div>
-    <button id="showT1Solution" class="hidden" aria-label="Show Task 1 solution">Show solution</button>
-   </div>
+  <div class="layout">
+    <section class="card scene-card">
+      <div class="canvas-scroll">
+        <canvas id="scene" tabindex="0" aria-label="Interactive physics diagram"></canvas>
+      </div>
+      <div id="legend" class="legend"></div>
+      <p id="sceneHelp" class="note"></p>
+      <div id="sceneStatus" class="banner" role="status" aria-live="polite"></div>
+    </section>
+    <div id="taskHost"></div>
   </div>
- </div>
-</section>
-
-<section id="task2" class="view">
- <div class="grid">
-  <div>
-   <div class="canvasbox"><canvas id="c2" aria-label="Interactive suspended platform simulation" tabindex="0"></canvas></div>
-   <div class="card">
-    <div id="t2banner" class="banner">Use the arrows or drag the worker. The platform is in equilibrium when both cables are taut and within their limits.</div>
-    <div id="t2readouts">
-      <div class="metric"><span>T<sub>A</sub></span><div class="bar"><div id="taBar" class="fill green"></div></div><strong id="taVal"></strong></div>
-      <div class="metric"><span>T<sub>B</sub></span><div class="bar"><div id="tbBar" class="fill green"></div></div><strong id="tbVal"></strong></div>
-      <p id="workerReadout"></p><p id="equilibriumReadout"></p>
-    </div>
-   </div>
-  </div>
-  <div class="card">
-   <h2>Task 2 – Suspended Platform 吊船</h2>
-   <p id="t2question"></p>
-   <div class="row"><label>Worker mark:</label><input id="workerX" type="number" min="0" max="2" step=".01" aria-label="Worker position mark"><span>m</span><button id="resetWorker" aria-label="Reset worker">Reset</button></div>
-   <div id="rodMassControl" class="row hidden"><label>Platform mass:</label><input id="rodMass2" type="range" min="0" max="20" step=".1" aria-label="Platform mass"><strong id="rodMass2Text"></strong><span>kg</span></div>
-   <label id="safeToggleRow" class="row hidden"><input id="safeToggle" type="checkbox"> Show safe zone 安全範圍</label>
-   <div id="steps">
-    <div class="step" data-step="1"><h3>1. Forces | 力</h3><textarea aria-label="Step 1 working" placeholder="Working / notes"></textarea><div class="checklist" id="forceChecks"></div><button class="checkStep">Check step</button><div class="feedback"></div></div>
-    <div class="step" data-step="2"><h3>2. Limiting cable</h3><textarea aria-label="Step 2 working"></textarea><div class="row"><label>Moving right:</label><select aria-label="Limiting cable"><option value="">Choose…</option><option value="A">Cable A</option><option value="B">Cable B</option></select><button class="checkStep">Check step</button></div><div class="feedback"></div></div>
-    <div class="step" data-step="3"><h3>3. Choice of pivot</h3><textarea aria-label="Step 3 working"></textarea><div class="row"><label>Eliminate T<sub>A</sub>:</label><select aria-label="Pivot choice"><option value="">Choose…</option><option value="A">Point A</option><option value="B">Point B</option><option value="C">Centre</option></select><button class="checkStep">Check step</button></div><div class="feedback"></div></div>
-    <div class="step" data-step="4"><h3>4. Right-side equation</h3><textarea aria-label="Step 4 working"></textarea><p>500 × <input class="blank" type="number" step=".001" aria-label="Cable separation"> = <input class="blank" type="number" step=".001" aria-label="Worker weight"> × (x − 0.40)</p><button class="checkStep">Check step</button><div class="feedback"></div></div>
-    <div class="step" data-step="5"><h3>5. Right-side solution</h3><textarea aria-label="Step 5 working"></textarea><p>x = <input class="blank" type="number" step=".001" aria-label="Right x"> m mark; distance from centre = <input class="blank" type="number" step=".001" aria-label="Right distance"> m</p><button class="checkStep">Check step</button><div class="feedback"></div></div>
-    <div class="step" data-step="6"><h3>6. Left-side limit</h3><textarea aria-label="Step 6 working"></textarea><p>Left limiting cable: <select><option value="">Choose…</option><option value="A">A</option><option value="B">B</option></select>; x = <input class="blank" type="number" step=".001" aria-label="Left x"> m mark</p><button class="checkStep">Check step</button><div class="feedback"></div></div>
-    <div class="step" data-step="7"><h3>7. Conclusion</h3><textarea aria-label="Step 7 working"></textarea><p>Maximum distance = <input class="blank" type="number" step=".001" aria-label="Maximum safe distance"> m, towards <select><option value="">Choose…</option><option value="A">A</option><option value="B">B</option></select></p><button class="checkStep">Check step</button><div class="feedback"></div></div>
-   </div>
-   <button id="copyPrompt" class="primary" aria-label="Copy prompt for AI checker">Copy prompt for AI checker</button>
-   <p class="small">AI can make mistakes — verify its feedback with the simulation.</p>
-   <textarea id="fallbackPrompt" class="hidden" aria-label="AI checker prompt"></textarea>
-  </div>
- </div>
-</section>
 </main>
 
-<div id="teacherModal" class="modal" role="dialog" aria-modal="true" aria-label="Teacher panel">
- <div class="modalbox">
-  <div class="row"><h2 style="margin-right:auto">⚙ Teacher panel</h2><button id="closeTeacher" aria-label="Close teacher panel">Close</button></div>
-  <div id="pinGate" class="hidden"><p>Enter teacher PIN.</p><input id="pinInput" type="password" aria-label="Teacher PIN"><button id="unlockPin">Unlock</button><span id="pinFeedback"></span></div>
-  <div id="teacherContent">
-   <p class="small">Edit the single CONFIG object below. Apply changes live; invalid JSON is not applied.</p>
-   <textarea id="teacherJSON" aria-label="Editable CONFIG"></textarea>
-   <div class="row"><button id="applyConfig" class="primary">Apply CONFIG</button><button id="revealSolution">Reveal worked solution</button><button id="exportResults">Export results</button></div>
-   <div id="teacherFeedback" class="feedback"></div>
-   <div id="solutionBox" class="solution hidden"></div>
-   <textarea id="exportBox" class="hidden" aria-label="Exported results"></textarea>
-  </div>
- </div>
+<div id="teacherModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="teacherTitle">
+  <section class="dialog">
+    <div class="dialog-top">
+      <h2 id="teacherTitle"></h2>
+      <button id="closeTeacher" class="secondary" type="button" aria-label="Close teacher panel">✕</button>
+    </div>
+    <div id="pinSection">
+      <label class="field" for="pinInput" id="pinLabel"></label>
+      <div class="row">
+        <input id="pinInput" type="password" autocomplete="off" aria-label="Teacher PIN">
+        <button id="unlockTeacher" type="button"></button>
+      </div>
+      <p id="pinFeedback" role="status"></p>
+    </div>
+    <div id="teacherContent" class="hidden">
+      <div id="quickControls"></div>
+      <label id="configLabel" class="field" for="configEditor"></label>
+      <textarea id="configEditor" spellcheck="false" aria-label="Complete editable CONFIG JSON"></textarea>
+      <div class="row">
+        <button id="applyConfig" type="button"></button>
+        <button id="revealSolutions" class="secondary" type="button"></button>
+        <button id="exportResults" class="success" type="button"></button>
+        <button id="runTests" class="secondary" type="button"></button>
+      </div>
+      <p id="teacherFeedback" role="status"></p>
+      <div id="workedSolutions" class="solution hidden"></div>
+    </div>
+  </section>
+</div>
+
+<div id="copyModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="copyTitle">
+  <section class="dialog">
+    <div class="dialog-top">
+      <h2 id="copyTitle"></h2>
+      <button id="closeCopy" class="secondary" type="button" aria-label="Close copy text">✕</button>
+    </div>
+    <p id="copyMessage"></p>
+    <textarea id="copyText" spellcheck="false" aria-label="Selectable text to copy"></textarea>
+    <button id="selectCopy" class="secondary" type="button"></button>
+  </section>
 </div>
 
 <script>
 "use strict";
-/* ===================== THE ONLY EDITABLE PARAMETERS ===================== */
+
+/* Edit classroom parameters here, or edit this complete object in ⚙ Teacher. */
 let CONFIG = {
-  g: 9.81,
   language: "en",
   mode: "assessment",
+  g: 9.81,
+  gravityChoices: [9.81, 10],
   showReadouts: true,
+  showSafeZone: false,
   teacherPIN: "",
+  grading: {
+    relativeTolerance: 0.01,
+    absoluteTolerance: 0.000001,
+    significantFigures: 3
+  },
+  rod: {
+    length: 2.00,
+    pivotMark: 1.00,
+    fulcrumHeight: 0.15,
+    minorTick: 0.05,
+    labelTick: 0.10
+  },
   task1: {
-    rightMass: 2.0, rightDistance: 0.50, leftDistance: 0.40, rodMass: 0,
-    lockUntilPredict: true, maxAttempts: 3, challengeDistances: [0.25,0.40,0.50,0.80,1.00]
+    fixedMass: 2.0,
+    fixedMark: 1.50,
+    leftDistance: 0.40,
+    rodMass: 0,
+    rodWeightInitiallyOn: false,
+    massMin: 0,
+    massMax: 20,
+    massStep: 0.01,
+    massButtonStep: 0.10,
+    distanceMin: 0.05,
+    distanceMax: 1.00,
+    distanceStep: 0.05,
+    lockUntilPredict: true,
+    maxAttempts: 3,
+    challengeDistances: [0.25, 0.40, 0.50, 0.80, 1.00]
   },
   task2: {
-    length: 2.00, cableA: 0.40, cableB: 1.80, workerMass: 60,
-    rodMass: 0, Tmax: 500
+    cableA: 0.40,
+    cableB: 1.80,
+    Tmax: 500,
+    warningFraction: 0.80,
+    workerMass: 60,
+    workerStart: 1.00,
+    workerStep: 0.01,
+    workerLargeStep: 0.10,
+    rodMass: 0,
+    rodMassMin: 0,
+    rodMassMax: 20,
+    rodMassStep: 0.10
+  },
+  animation: {
+    tippingSeconds: 0.60,
+    holdSeconds: 0.35,
+    shakeAmplitude: 4,
+    shakeFrequency: 8
+  },
+  drawing: {
+    minimumCanvasWidth: 720,
+    maximumArrowLength: 145,
+    desiredPixelsPerNewton: 0.75,
+    momentArcRadius: 42,
+    colours: {
+      weight: "#b82236",
+      tension: "#075fbb",
+      ground: "#157442",
+      pivot: "#616b77",
+      clockwise: "#bb5700",
+      anticlockwise: "#7240b3",
+      ink: "#14273e"
+    }
   }
 };
-/* ======================================================================== */
 
-const $=id=>document.getElementById(id), clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
-const sg=n=>{if(!isFinite(n))return "—"; return Number(n).toPrecision(3).replace(/\.?0+e/,"e").replace(/(\.\d*?)0+$/,"$1")};
-const near=(a,b)=>Math.abs(a-b)<=Math.max(.00001,Math.abs(b)*.01);
-const state={tab:1,t1:{submitted:false,attempts:0,mass:0,distance:.4,angle:0,targetAngle:0,drag:false,held:false},t2:{x:1,drag:false,steps:{}},start:Date.now()};
-const tr={
- en:{assessment:"Assessment",sandbox:"Sandbox",right:"right",left:"left",safe:"Safe equilibrium ✔",slack:"Platform tips — a cable cannot push!",over:"Cable {c} overloaded!",tip:"Tipped!",point:"On the point of tipping — this is the maximum mass."},
- zh:{assessment:"評估模式",sandbox:"探索模式",right:"右方",left:"左方",safe:"安全平衡 ✔",slack:"平台翻倒——纜索不能推！",over:"纜索 {c} 超載！",tip:"翻倒！",point:"剛好要翻倒——這是最大質量。"}
+const $ = id => document.getElementById(id);
+const canvas = $("scene");
+const ctx = canvas.getContext("2d");
+const schema = JSON.parse(JSON.stringify(CONFIG));
+const state = {
+  task: 1,
+  mass: CONFIG.task1.massMin,
+  distance: CONFIG.task1.leftDistance,
+  rodWeight: CONFIG.task1.rodWeightInitiallyOn,
+  workerX: CONFIG.task2.workerStart,
+  platformMass: CONFIG.task2.rodMass,
+  predictionSubmitted: false,
+  predictionCorrect: false,
+  attempts: 0,
+  allPredictionAttempts: 0,
+  challenges: 0,
+  finalSubmitted: false,
+  safeRequested: CONFIG.showSafeZone,
+  teacherSafeOverride: false,
+  stepAttempts: Array(7).fill(0),
+  stepResults: Array(7).fill(null),
+  form: {},
+  feedback1: "",
+  feedback1Good: false,
+  angle: Math.asin(CONFIG.rod.fulcrumHeight / (CONFIG.rod.length - CONFIG.rod.pivotMark)),
+  motion: null,
+  holdUntil: 0,
+  drag: null,
+  teacherUnlocked: false,
+  time: [0, 0],
+  lastTime: performance.now(),
+  width: 0,
+  height: 0,
+  dpr: 0,
+  geometry: null,
+  returnFocus: null
 };
-function T(k){return tr[CONFIG.language][k]||k}
-function kgcmMoment(m,d){return Math.round(m*1000)*Math.round(d*100)} // integer comparison
-function t1Physics(){
- const a=state.t1, c=CONFIG.task1, g=CONFIG.g;
- const leftI=kgcmMoment(a.mass,a.distance), rightI=kgcmMoment(c.rightMass,c.rightDistance);
- const acw=a.mass*g*a.distance, cw=c.rightMass*g*c.rightDistance, diffI=leftI-rightI;
- const R=Math.abs(acw-cw); return {acw,cw,diffI,R,max:c.rightMass*c.rightDistance/a.distance};
+const tr = (en, zh) => CONFIG.language === "zh" ? zh : en;
+const esc = value => String(value).replace(/[&<>"']/g, c => ({
+  "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+}[c]));
+const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+const snap = (x, step) => Math.round(x / step) * step;
+const centre = () => CONFIG.rod.length / 2;
+function fmt(n) {
+  if (!Number.isFinite(n)) return "—";
+  if (Math.abs(n) < 1e-10) n = 0;
+  return n.toPrecision(CONFIG.grading.significantFigures);
 }
-function t2Physics(){
- const c=CONFIG.task2,g=CONFIG.g,x=state.t2.x,W=c.workerMass*g,Wr=c.rodMass*g,span=c.cableB-c.cableA;
- const TB=(W*(x-c.cableA)+Wr*(1-c.cableA))/span, TA=W+Wr-TB;
- const xmin=c.cableA+((W+Wr-c.Tmax)*span-Wr*(1-c.cableA))/W;
- const xmax=c.cableA+(c.Tmax*span-Wr*(1-c.cableA))/W;
- return {W,Wr,TA,TB,xmin,xmax,span};
+const mark = n => Number(n).toFixed(2);
+const unit = (n, u) => `${fmt(n)} ${u}`;
+function closeNumber(value, expected) {
+  if (String(value).trim() === "") return false;
+  const n = Number(value);
+  return Number.isFinite(n) &&
+    Math.abs(n - expected) <= Math.max(
+      CONFIG.grading.absoluteTolerance,
+      Math.abs(expected) * CONFIG.grading.relativeTolerance
+    );
 }
-function canvasSetup(c){
- const r=c.getBoundingClientRect(),d=devicePixelRatio||1;
- if(c.width!==Math.round(r.width*d)||c.height!==Math.round(r.height*d)){c.width=Math.round(r.width*d);c.height=Math.round(r.height*d)}
- const x=c.getContext("2d");x.setTransform(d,0,0,d,0,0);return {x,w:r.width,h:r.height};
+function allowedReadouts() {
+  return CONFIG.showReadouts &&
+    (state.task !== 1 || state.predictionSubmitted || !CONFIG.task1.lockUntilPredict);
 }
-function line(x,a,b,c,d,colour,width=2,dash=[]){x.save();x.strokeStyle=colour;x.lineWidth=width;x.setLineDash(dash);x.beginPath();x.moveTo(a,b);x.lineTo(c,d);x.stroke();x.restore()}
-function text(x,s,a,b,colour="#10212b",size=14,align="center"){x.fillStyle=colour;x.font=`${size}px Arial`;x.textAlign=align;x.fillText(s,a,b)}
-function arrow(x,x1,y1,x2,y2,col,label){
- line(x,x1,y1,x2,y2,col,3);const A=Math.atan2(y2-y1,x2-x1),z=8;
- x.fillStyle=col;x.beginPath();x.moveTo(x2,y2);x.lineTo(x2-z*Math.cos(A-.45),y2-z*Math.sin(A-.45));x.lineTo(x2-z*Math.cos(A+.45),y2-z*Math.sin(A+.45));x.fill();
- if(label)text(x,label,x2,y2-7,col,13);
+function canExplore1() {
+  return state.predictionSubmitted || !CONFIG.task1.lockUntilPredict;
 }
-function drawRuler(x,w,y,map){
- line(x,55,y,w-40,y,"#30434d",1);
- for(let i=0;i<=40;i++){let m=i/20,px=map(m),major=i%2===0,key=[0,.4,1,1.5,1.8,2].some(v=>Math.abs(v-m)<.001);
-  line(x,px,y,px,y+(major?(key?15:11):6),"#30434d",major?1.5:1);
-  if(major)text(x,m.toFixed(2),px,y+29,key?"#10212b":"#52636c",key?13:11);
- } text(x,"marks measured from LEFT end (m)",w/2,y+48,"#52636c",12);
+function captureForm() {
+  document.querySelectorAll("#taskHost input, #taskHost select, #taskHost textarea").forEach(el => {
+    if (!el.id || el.dataset.sim === "true") return;
+    state.form[el.id] = el.type === "checkbox" ? el.checked : el.value;
+  });
 }
-function drawT1(){
- const c=$("c1"),{x,w,h}=canvasSetup(c),p=t1Physics(),s=state.t1,cf=CONFIG.task1;
- x.clearRect(0,0,w,h);const L=60,R=w-45,base=h*.63,pivotX=L+(R-L)/2,scale=(R-L)/2;
- let desired=p.diffI>0?Math.asin(.15):p.diffI<0?-Math.asin(.15):0;
- if(s.held){desired=0;s.held=false} s.targetAngle=desired;s.angle+=(s.targetAngle-s.angle)*.11;
- const yAt=d=>base+Math.sin(s.angle)*d*scale, px=m=>pivotX+(m-1)*scale, rodY=m=>base+Math.sin(s.angle)*(m-1)*scale;
- // ground and fulcrum
- line(x,L,h*.78,R,h*.78,"#60737b",3);x.fillStyle="#7b858a";x.beginPath();x.moveTo(pivotX-32,h*.78);x.lineTo(pivotX+32,h*.78);x.lineTo(pivotX,base+8);x.closePath();x.fill();
- // rod rotation
- x.save();x.translate(pivotX,base);x.rotate(s.angle);x.fillStyle="#9b6b39";x.fillRect(-scale,-8,scale*2,16);x.strokeStyle="#5f3f20";x.strokeRect(-scale,-8,scale*2,16);x.restore();
- const ly=rodY(1-s.distance),ry=rodY(1.5);
- // loads
- x.fillStyle="#c62828";x.fillRect(px(1-s.distance)-13,ly-24,26,16);text(x,"mL",px(1-s.distance),ly-30,"#c62828",13);
- x.fillStyle="#c62828";x.fillRect(px(1.5)-13,ry-24,26,16);text(x,"2.0 kg 🔒",px(1.5),ry-30,"#c62828",13);
- if(CONFIG.showReadouts&&s.submitted){arrow(x,px(1-s.distance),ly-7,px(1-s.distance),ly+Math.min(72,20+s.mass*4),"#c62828",`Wₗ ${sg(s.mass*CONFIG.g)} N`);arrow(x,px(1.5),ry-7,px(1.5),ry+45,"#c62828",`Wᵣ ${sg(cf.rightMass*CONFIG.g)} N`)}
- // ground reaction active lower end
- if(p.diffI!==0&&s.submitted){let at=p.diffI>0?0:2, ay=rodY(at);arrow(x,px(at),h*.78-5,px(at),ay+3,"#16803c",`R ${sg(p.R)} N`)}
- if(cf.rodMass>0){arrow(x,pivotX,base-5,pivotX,base+42,"#c62828",`rod W ${sg(cf.rodMass*CONFIG.g)} N`);text(x,"passes through pivot → zero moment",pivotX,base+59,"#52636c",11)}
- if(CONFIG.showReadouts&&s.submitted){arrow(x,pivotX,base+3,pivotX,base-50,"#5c6670","pivot reaction")}
- // moment arcs
- x.strokeStyle="#7137a8";x.lineWidth=3;x.beginPath();x.arc(pivotX,base-55,27,Math.PI*.2,Math.PI*1.1);x.stroke();
- x.strokeStyle="#dc6f00";x.beginPath();x.arc(pivotX,base-55,34,-.1,Math.PI*.65);x.stroke();
- text(x,"↺ ACW",pivotX-65,base-74,"#7137a8",12);text(x,"CW ↻",pivotX+61,base-74,"#dc6f00",12);
- drawRuler(x,w,h*.85,m=>px(m));
- text(x,"Force-arrow key: 1 cm ≈ 50 N (visual scale)",w/2,25,"#52636c",13);
+function restoreForm() {
+  Object.entries(state.form).forEach(([id, value]) => {
+    const el = $(id);
+    if (!el) return;
+    if (el.type === "checkbox") el.checked = !!value;
+    else el.value = value;
+  });
 }
-function drawT2(){
- const c=$("c2"),{x,w,h}=canvasSetup(c),p=t2Physics(),q=CONFIG.task2,L=55,R=w-40,map=m=>L+(R-L)*m/2,rodY=h*.55;
- x.clearRect(0,0,w,h);let invalid=p.TA<0||p.TB<0||p.TA>q.Tmax||p.TB>q.Tmax;
- // safe zone
- if($("safeToggle").checked&&state.t2.steps[7]){x.fillStyle="#dff3e5";x.fillRect(map(clamp(p.xmin,0,2)),rodY-35,map(clamp(p.xmax,0,2))-map(clamp(p.xmin,0,2)),70);text(x,"safe zone",map((p.xmin+p.xmax)/2),rodY-42,"#16803c",13)}
- // roof
- line(x,L,65,R,65,"#273f4a",6);
- [["A",q.cableA,p.TA],["B",q.cableB,p.TB]].forEach(([name,m,t],i)=>{
-  let px=map(m),slack=t<0,over=t>q.Tmax;
-  if(slack){x.strokeStyle="#1267b3";x.lineWidth=3;x.beginPath();for(let yy=68;yy<rodY;yy+=8)x.quadraticCurveTo(px+(yy/8%2?7:-7),yy+4,px,yy+8);x.stroke()}
-  else {let shake=over?Math.sin(Date.now()/50+i)*3:0;line(x,px,68,px+shake,rodY,"#1267b3",4)}
-  x.fillStyle="#fff";x.strokeStyle="#1267b3";x.lineWidth=2;x.fillRect(px-26,76,52,25);x.strokeRect(px-26,76,52,25);text(x,`${name}: ${sg(t)} N`,px,94,over?"#c62828":"#1267b3",12);
- });
- // platform tilt representation only on invalid
- let tilt=invalid?(p.TB>q.Tmax||p.TA<0?.10:-.10):0;x.save();x.translate(map(1),rodY);x.rotate(tilt);x.fillStyle="#9b6b39";x.fillRect(-(R-L)/2,-9,R-L,18);x.strokeStyle="#5f3f20";x.strokeRect(-(R-L)/2,-9,R-L,18);x.restore();
- // centres
- line(x,map(1),rodY-105,map(1),rodY+45,"#687b84",1,[5,5]);text(x,"centre",map(1),rodY-110,"#52636c",12);
- line(x,map((q.cableA+q.cableB)/2),rodY-70,map((q.cableA+q.cableB)/2),rodY+20,"#7137a8",1,[3,4]);text(x,"midpoint AB",map((q.cableA+q.cableB)/2),rodY-75,"#7137a8",12);
- // worker
- let wx=map(state.t2.x),wy=rodY-10;x.fillStyle="#f2c28e";x.beginPath();x.arc(wx,wy-55,9,0,7);x.fill();x.fillStyle="#f5c400";x.fillRect(wx-11,wy-66,22,6);line(x,wx,wy-45,wx,wy-19,"#10212b",4);line(x,wx,wy-37,wx-12,wy-27,"#10212b",3);line(x,wx,wy-37,wx+12,wy-27,"#10212b",3);line(x,wx,wy-19,wx-8,wy,"#10212b",3);line(x,wx,wy-19,wx+8,wy,"#10212b",3);
- if(CONFIG.showReadouts)arrow(x,wx,wy-5,wx,wy+48,"#c62828",`W ${sg(p.W)} N`);
- if(q.rodMass>0)arrow(x,map(1),rodY-5,map(1),rodY+32,"#c62828",`platform W ${sg(p.Wr)} N`);
- drawRuler(x,w,h*.81,map);text(x,"Cable A",map(q.cableA),h*.48,"#1267b3",14);text(x,"Cable B",map(q.cableB),h*.48,"#1267b3",14);
+function value(id) {
+  const el = $(id);
+  return el ? el.value : (state.form[id] || "");
 }
-function updateT1(){
- const p=t1Physics(),s=state.t1,cf=CONFIG.task1; $("massSlider").value=s.mass;$("massBox").value=s.mass.toFixed(2);$("distanceSlider").value=s.distance;$("distanceText").textContent=`${s.distance.toFixed(2)} m (${(1-s.distance).toFixed(2)} m mark)`;
- $("t1question").textContent=`A ${cf.rightMass.toFixed(1)} kg mass is fixed ${cf.rightDistance.toFixed(2)} m to the right of the pivot. A mass is hung on the left, ${s.distance.toFixed(2)} m from the pivot. Find the maximum mass that can be hung on the left before the seesaw tips.`;
- let show=s.submitted&&CONFIG.showReadouts;$("t1metrics").classList.toggle("hidden",!show);
- if(show){$("acwbar").style.width=`${Math.min(100,p.acw/Math.max(p.acw,p.cw,1)*100)}%`;$("cwbar").style.width=`${Math.min(100,p.cw/Math.max(p.acw,p.cw,1)*100)}%`;$("acwval").textContent=`${sg(p.acw)} N m`;$("cwval").textContent=`${sg(p.cw)} N m`;$("netval").textContent=`Net moment: ${sg(Math.abs(p.acw-p.cw))} N m ${p.diffI>0?"anticlockwise":p.diffI<0?"clockwise":"(zero)"}`;$("reactionval").textContent=`Ground reaction R: ${sg(p.R)} N`;}
- let banner=!s.submitted?"Complete Predict to unlock the simulation.":p.diffI===0?T("point"):p.diffI>0?T("tip"):"Right end rests on ground.";
- $("t1banner").textContent=banner;$("t1banner").className="banner "+(p.diffI>0?"bad":p.diffI===0?"good":"");
- drawT1();
+function checked(id) {
+  return $(id) ? $(id).checked : !!state.form[id];
 }
-function tensionStyle(v,max){return v<0?["red","✖"]:v>max?["red","✖"]:v>=.8*max?["amber","⚠"]:["green","✔"]}
-function updateT2(){
- const p=t2Physics(),q=CONFIG.task2, valid=p.TA>=0&&p.TB>=0&&p.TA<=q.Tmax&&p.TB<=q.Tmax;
- [["taBar","taVal",p.TA],["tbBar","tbVal",p.TB]].forEach(([b,v,n])=>{let z=tensionStyle(n,q.Tmax);$(b).className="fill "+z[0];$(b).style.width=`${clamp(n/q.Tmax*100,0,100)}%`;$(v).textContent=`${z[1]} ${sg(n)} N`});
- $("workerX").value=state.t2.x.toFixed(2);let d=state.t2.x-1;$("workerReadout").textContent=`Worker: ${state.t2.x.toFixed(2)} m mark; ${Math.abs(d).toFixed(2)} m ${d===0?"from":d>0?"right of":"left of"} centre.`;
- $("equilibriumReadout").textContent=valid?"Net force = 0 N; net moment = 0 N m.":p.TA<0||p.TB<0?"A cable is slack: this assumed horizontal equilibrium is impossible.":"A cable exceeds its safe tension.";
- let message=valid?T("safe"):p.TA<0||p.TB<0?T("slack"):T("over").replace("{c}",p.TA>q.Tmax?"A":"B");$("t2banner").textContent=message;$("t2banner").className="banner "+(valid?"good":"bad");
- drawT2();
+function numField(id, label, units = "", step = "any") {
+  return `<label class="row">${label}
+    <input id="${id}" type="number" step="${step}" aria-label="${esc(label)}">
+    ${units}</label>`;
 }
-function syncAll(){state.t1.distance=CONFIG.mode==="assessment"?CONFIG.task1.leftDistance:state.t1.distance;state.t1.distance=clamp(state.t1.distance,.05,1);$("positionControl").classList.toggle("hidden",CONFIG.mode==="assessment");$("rodMassControl").classList.toggle("hidden",CONFIG.mode==="assessment");$("modeBadge").textContent=T(CONFIG.mode);$("teacherJSON").value=JSON.stringify(CONFIG,null,2);updateT1();updateT2()}
-function validAnswer(v,ans){return Number.isFinite(v)&&near(v,ans)}
-function stepFeedback(el,ok,hint){let f=el.querySelector(".feedback");f.innerHTML=ok?'<span class="ok">✅ Correct — continue.</span>':'<span class="badtext">❌ '+hint+"</span>";if(ok)state.t2.steps[el.dataset.step]=true;if(el.dataset.step==="7"&&ok)$("safeToggleRow").classList.remove("hidden");updateT2()}
-function stepCheck(el){
- const p=t2Physics(),q=CONFIG.task2,n=el.dataset.step,inputs=[...el.querySelectorAll(".blank")],selects=[...el.querySelectorAll("select")];
- if(n==="1"){let required=["TA","TB","Ww"],checked=[...el.querySelectorAll("input:checked")].map(e=>e.value),ok=required.every(v=>checked.includes(v))&&(!q.rodMass||checked.includes("Wr"))&&!checked.some(v=>["N","F","P"].includes(v));stepFeedback(el,ok,"Draw a free-body diagram: include only forces acting on the platform.");}
- if(n==="2")stepFeedback(el,selects[0].value==="B","As the worker moves right, which cable’s upward contribution must increase?");
- if(n==="3")stepFeedback(el,selects[0].value==="A","Choose a point through which the unknown T_A acts.");
- if(n==="4")stepFeedback(el,validAnswer(+inputs[0].value,p.span)&&validAnswer(+inputs[1].value,p.W),"Take moments about A. Use the perpendicular distance between A and B, then the worker’s weight.");
- if(n==="5"){let xr=q.cableA+(q.Tmax*p.span-p.Wr*(1-q.cableA))/p.W;stepFeedback(el,validAnswer(+inputs[0].value,xr)&&validAnswer(+inputs[1].value,xr-1),"Set T_B to its maximum, then solve for the worker’s mark before subtracting the centre mark.");}
- if(n==="6"){let xl=p.xmin;stepFeedback(el,selects[0].value==="A"&&validAnswer(+inputs[0].value,xl),"On the left, use T_A = 500 N and take moments about B.");}
- if(n==="7"){let xr=p.xmax,dist=Math.max(Math.abs(xr-1),Math.abs(p.xmin-1));stepFeedback(el,validAnswer(+inputs[0].value,dist)&&selects[0].value==="B","Compare both distances from the platform centre. State the direction of the larger one.");}
+function workField(n) {
+  return `<label class="field" for="work${n}">${tr("Your working", "你的計算過程")}</label>
+    <textarea id="work${n}" aria-label="${esc(tr("Working for step ", "步驟計算過程 ") + n)}"></textarea>`;
 }
-function buildForces(){
- $("forceChecks").innerHTML=[["TA","Tension T_A"],["TB","Tension T_B"],["Ww","Weight of worker"],["Wr","Weight of platform"],["N","Normal force from ground"],["F","Friction"],["P","Reaction at a centre pivot"]].map(([v,l])=>`<label><input type="checkbox" value="${v}"> ${l}</label>`).join("");
+function stepButton(n) {
+  return `<button type="button" data-action="check-step" data-step="${n}">${tr("Check step", "檢查步驟")}</button>
+    <div id="feedback${n}" class="feedback" aria-live="polite"></div>`;
 }
-function copyPrompt(){
- const q=CONFIG.task2,p=t2Physics(),work=[...document.querySelectorAll("#steps .step")].map((e,i)=>`Step ${i+1}: ${[...e.querySelectorAll("textarea,input,select")].map(z=>z.type==="checkbox"?(z.checked?z.value:""):z.value).filter(Boolean).join(" | ")||"(blank)"}`).join("\n");
- const lang=CONFIG.language==="zh"?"Traditional Chinese":"English";
- const question=`A ${q.workerMass} kg worker stands on a ${q.length.toFixed(2)} m light platform. Cable A is at ${q.cableA.toFixed(2)} m and cable B at ${q.cableB.toFixed(2)} m. Each cable holds at most ${q.Tmax} N. Find the maximum distance from the centre at which the worker can stand safely, and which cable limits each side.`;
- const s=`You are a patient HKDSE Physics tutor. Check my working step by step.
-RULES: Do NOT give me the final answer or a full solution. Mark each step ✅ or ❌. For the FIRST wrong step only, explain the mistake using a hint or guiding question. Check: physics principle, direction of moments, distances measured from the chosen pivot, units (N, m, N m) and significant figures. Reply in ${lang}.
-PROBLEM: ${question} g = ${CONFIG.g} N kg⁻¹.
-MY WORKING:
-${work}`;
- navigator.clipboard&&navigator.clipboard.writeText(s).then(()=>{$("fallbackPrompt").classList.add("hidden");$("copyPrompt").textContent="Copied ✅";setTimeout(()=>$("copyPrompt").textContent="Copy prompt for AI checker",1200)}).catch(()=>{$("fallbackPrompt").value=s;$("fallbackPrompt").classList.remove("hidden")});if(!navigator.clipboard){$("fallbackPrompt").value=s;$("fallbackPrompt").classList.remove("hidden")}
-}
-function solution(){
- const a=CONFIG.task1,p=t2Physics(),q=CONFIG.task2,m=a.rightMass*a.rightDistance/state.t1.distance,xr=p.xmax,xl=p.xmin;
- return `TASK 1 — SEESAW
-Take moments about the pivot at the point of tipping: ground reaction R = 0.
-m_L × ${CONFIG.g} × ${state.t1.distance.toFixed(2)} = ${a.rightMass.toFixed(2)} × ${CONFIG.g} × ${a.rightDistance.toFixed(2)}
-m_L = ${sg(m)} kg.
-The rod’s weight, if included, acts through the pivot, so it has zero moment.
 
-TASK 2 — SUSPENDED PLATFORM
-Worker weight W = ${q.workerMass} × ${CONFIG.g} = ${sg(p.W)} N.
-Taking moments about A:
-T_B(${sg(p.span)}) = W(x − ${q.cableA.toFixed(2)}) + ${sg(p.Wr)}(${(1-q.cableA).toFixed(2)}).
-Right limit: T_B = ${q.Tmax} N, so x = ${sg(xr)} m mark; distance from centre = ${sg(xr-1)} m towards B.
-Left limit: T_A = ${q.Tmax} N, so x = ${sg(xl)} m mark; distance from centre = ${sg(1-xl)} m towards A.
-The maximum permitted distance is ${sg(Math.max(xr-1,1-xl))} m, towards ${xr-1>=1-xl?"B":"A"}.
-Safe zone: ${sg(xl)} m to ${sg(xr)} m mark. It is centred on midpoint AB = ${sg((q.cableA+q.cableB)/2)} m, not necessarily the platform centre.`;
+function seesawPhysics(cfg = CONFIG, mass = state.mass, distance = state.distance, includeRod = state.rodWeight) {
+  const r = cfg.rod, t = cfg.task1;
+  const dR = t.fixedMark - r.pivotMark;
+  const gramsL = Math.round(mass * 1000);
+  const gramsR = Math.round(t.fixedMass * 1000);
+  const cmL = Math.round(distance * 100);
+  const cmR = Math.round(dR * 100);
+  const integerDifference = gramsL * cmL - gramsR * cmR;
+  const sign = Math.sign(integerDifference);
+  const acw = mass * cfg.g * distance;
+  const cw = t.fixedMass * cfg.g * dR;
+  const loadNet = acw - cw;
+  const endArm = sign > 0 ? r.pivotMark : r.length - r.pivotMark;
+  const R = sign === 0 ? 0 : Math.abs(loadNet) / endArm;
+  const rodMass = includeRod ? t.rodMass : 0;
+  const P = (mass + t.fixedMass + rodMass) * cfg.g - R;
+  return {
+    sign, acw, cw, loadNet, R, P, rodMass,
+    maximum: t.fixedMass * dR / distance,
+    groundSide: sign > 0 ? "left" : sign < 0 ? "right" : "none",
+    target: sign > 0
+      ? -Math.asin(r.fulcrumHeight / r.pivotMark)
+      : Math.asin(r.fulcrumHeight / (r.length - r.pivotMark))
+  };
 }
-function exportResults(){
- const p=t1Physics(),t=t2Physics(),name=prompt("Student name (optional):")||"",cls=prompt("Class (optional):")||"",mins=((Date.now()-state.start)/60000).toFixed(1);
- $("exportBox").value=`Moments & Equilibrium results
-Student: ${name}
-Class: ${cls}
-Time spent: ${mins} min
-Mode: ${CONFIG.mode}
-Task 1 prediction: ${$("t1answer").value||"blank"} kg
-Task 1 correct maximum: ${sg(p.max)} kg
-Task 1 attempts: ${state.t1.attempts}
-No-AI declaration: ${$("noAI").checked?"Yes":"No"}
-Task 2 worker position: ${state.t2.x.toFixed(2)} m
-Task 2 step checks completed: ${Object.keys(state.t2.steps).length}/7
-g: ${CONFIG.g} N kg⁻¹`;
- $("exportBox").classList.remove("hidden");$("exportBox").select();document.execCommand("copy");$("teacherFeedback").textContent="Export copied where permitted; selectable text is shown below.";
+
+function platformPhysics(cfg = CONFIG, x = state.workerX, rodMass = state.platformMass) {
+  const t = cfg.task2, C = cfg.rod.length / 2, D = t.cableB - t.cableA;
+  const W = t.workerMass * cfg.g, Wr = rodMass * cfg.g;
+  const TB = (W * (x - t.cableA) + Wr * (C - t.cableA)) / D;
+  const TA = W + Wr - TB;
+  const a = Math.abs(TA) < 1e-9 ? 0 : TA;
+  const b = Math.abs(TB) < 1e-9 ? 0 : TB;
+  const actualA = Math.max(0, a), actualB = Math.max(0, b);
+  const netForce = actualA + actualB - W - Wr;
+  const netMoment = actualB * D - W * (x - t.cableA) - Wr * (C - t.cableA);
+  return {
+    W, Wr, D, TA: a, TB: b, actualA, actualB, netForce, netMoment,
+    slackA: a < 0, slackB: b < 0,
+    overloadA: a > t.Tmax + 1e-9,
+    overloadB: b > t.Tmax + 1e-9
+  };
 }
-function animate(){updateT1();updateT2();requestAnimationFrame(animate)}
-// Tabs and language
-$("tab1").onclick=()=>{state.tab=1;$("task1").classList.add("active");$("task2").classList.remove("active");$("tab1").classList.add("active");$("tab2").classList.remove("active")};
-$("tab2").onclick=()=>{state.tab=2;$("task2").classList.add("active");$("task1").classList.remove("active");$("tab2").classList.add("active");$("tab1").classList.remove("active")};
-$("langBtn").onclick=()=>{CONFIG.language=CONFIG.language==="en"?"zh":"en";syncAll()};
-// Task 1 controls
-$("submitPredict").onclick=()=>{
- let p=t1Physics(),v=parseFloat($("t1answer").value);if(!$("noAI").checked){$("predictFeedback").textContent="Please confirm the No-AI declaration.";return}
- state.t1.attempts++;state.t1.submitted=true;$("observeBox").classList.remove("hidden");$("predictBox").classList.add("hidden");
- if(validAnswer(v,p.max))$("predictFeedback").innerHTML='<span class="ok">✅ Prediction accepted.</span>';
- else {let hints=["Which moments act about the pivot?","At the maximum mass, what is the reaction from the ground?","Does the rod’s own weight produce a moment about the pivot?"];$("predictFeedback").textContent="";$("hintBox").textContent=hints[Math.min(state.t1.attempts-1,2)];if(state.t1.attempts>=CONFIG.task1.maxAttempts)$("showT1Solution").classList.remove("hidden")}
-};
-function massSet(v){state.t1.mass=clamp(Math.round(v*100)/100,0,20);updateT1()}
-$("massSlider").oninput=e=>massSet(+e.target.value);$("massBox").onchange=e=>massSet(+e.target.value);$("minusMass").onclick=()=>massSet(state.t1.mass-.1);$("plusMass").onclick=()=>massSet(state.t1.mass+.1);
-$("distanceSlider").oninput=e=>{state.t1.distance=+e.target.value;updateT1()};$("rodWeightToggle").onchange=e=>{CONFIG.task1.rodMass=e.target.checked?1:0;syncAll()};$("holdLevel").onclick=()=>{state.t1.angle=0;state.t1.held=true};$("challenge").onclick=()=>{let a=CONFIG.task1.challengeDistances;state.t1.distance=a[Math.floor(Math.random()*a.length)];state.t1.mass=0;state.t1.submitted=false;$("observeBox").classList.add("hidden");$("predictBox").classList.remove("hidden");$("t1answer").value="";syncAll()};$("showT1Solution").onclick=()=>alert(solution().split("TASK 2")[0]);
-// Task 2
-$("workerX").onchange=e=>{state.t2.x=clamp(Math.round(+e.target.value*100)/100,0,2);updateT2()};$("resetWorker").onclick=()=>{state.t2.x=1;updateT2()};$("rodMass2").oninput=e=>{CONFIG.task2.rodMass=+e.target.value;$("rodMass2Text").textContent=sg(CONFIG.task2.rodMass);updateT2()};$("safeToggle").onchange=updateT2;
-document.querySelectorAll(".checkStep").forEach(b=>b.onclick=()=>stepCheck(b.closest(".step")));$("copyPrompt").onclick=copyPrompt;
-$("c2").addEventListener("keydown",e=>{if(["ArrowLeft","ArrowRight"].includes(e.key)){e.preventDefault();state.t2.x=clamp(state.t2.x+(e.key==="ArrowRight"?1:-1)*(e.shiftKey?.1:.01),0,2);updateT2()}});
-function pointerPosition(canvas,e){let r=canvas.getBoundingClientRect();return (e.clientX-r.left)/r.width*2}
-$("c2").addEventListener("pointerdown",e=>{state.t2.drag=true;$("c2").setPointerCapture(e.pointerId);state.t2.x=clamp(Math.round(pointerPosition($("c2"),e)*100)/100,0,2)});
-$("c2").addEventListener("pointermove",e=>{if(state.t2.drag)state.t2.x=clamp(Math.round(pointerPosition($("c2"),e)*100)/100,0,2)});$("c2").addEventListener("pointerup",()=>state.t2.drag=false);
-$("c1").addEventListener("pointerdown",e=>{if(CONFIG.mode==="sandbox"&&state.t1.submitted){state.t1.drag=true;$("c1").setPointerCapture(e.pointerId)}});$("c1").addEventListener("pointermove",e=>{if(state.t1.drag){let r=$("c1").getBoundingClientRect(),mark=(e.clientX-r.left)/r.width*2,stateD=clamp(1-mark,.05,1);state.t1.distance=Math.round(stateD/.05)*.05}});$("c1").addEventListener("pointerup",()=>state.t1.drag=false);
-// Teacher panel
-$("teacherBtn").onclick=()=>{$("teacherModal").classList.add("show");let locked=!!CONFIG.teacherPIN;$("pinGate").classList.toggle("hidden",!locked);$("teacherContent").classList.toggle("hidden",locked);$("teacherJSON").value=JSON.stringify(CONFIG,null,2)};
-$("closeTeacher").onclick=()=>$("teacherModal").classList.remove("show");$("unlockPin").onclick=()=>{if($("pinInput").value===CONFIG.teacherPIN){$("pinGate").classList.add("hidden");$("teacherContent").classList.remove("hidden")}else $("pinFeedback").textContent="Incorrect PIN."};
-$("applyConfig").onclick=()=>{try{let next=JSON.parse($("teacherJSON").value);if(!next.task1||!next.task2)throw Error("CONFIG must include task1 and task2.");CONFIG=next;state.t1.distance=CONFIG.task1.leftDistance;$("rodMass2").value=CONFIG.task2.rodMass;$("rodMass2Text").textContent=sg(CONFIG.task2.rodMass);$("teacherFeedback").textContent="CONFIG applied live.";syncAll()}catch(e){$("teacherFeedback").textContent="Invalid CONFIG: "+e.message}};
-$("revealSolution").onclick=()=>{$("solutionBox").textContent=solution();$("solutionBox").classList.remove("hidden")};$("exportResults").onclick=exportResults;
-buildForces();$("rodMass2").value=CONFIG.task2.rodMass;$("rodMass2Text").textContent=sg(CONFIG.task2.rodMass);syncAll();animate();
+
+function safeZone(cfg = CONFIG, rodMass = state.platformMass) {
+  const t = cfg.task2, L = cfg.rod.length, C = L / 2, D = t.cableB - t.cableA;
+  const W = t.workerMass * cfg.g, Wr = rodMass * cfg.g, total = W + Wr;
+  const lowerTB = Math.max(0, total - t.Tmax);
+  const upperTB = Math.min(t.Tmax, total);
+  const rawMin = t.cableA + (lowerTB * D - Wr * (C - t.cableA)) / W;
+  const rawMax = t.cableA + (upperTB * D - Wr * (C - t.cableA)) / W;
+  const min = Math.max(0, rawMin), max = Math.min(L, rawMax);
+  const exists = lowerTB <= upperTB + 1e-9 && min <= max + 1e-9;
+  const rightOverloadMark = t.cableA + (t.Tmax * D - Wr * (C - t.cableA)) / W;
+  const leftOverloadMark = t.cableB - (t.Tmax * D - Wr * (t.cableB - C)) / W;
+  const leftDistance = exists ? Math.abs(min - C) : NaN;
+  const rightDistance = exists ? Math.abs(max - C) : NaN;
+  const maximum = exists ? Math.max(leftDistance, rightDistance) : NaN;
+  let direction = "none";
+  if (exists) {
+    if (Math.abs(leftDistance - rightDistance) < 1e-9) direction = "either";
+    else {
+      const extreme = rightDistance > leftDistance ? max : min;
+      direction = extreme >= C ? "B" : "A";
+    }
+  }
+  return {
+    exists, min, max, rawMin, rawMax,
+    W, Wr, D, C, lowerTB, upperTB,
+    rightOverloadMark, leftOverloadMark,
+    leftDistance, rightDistance, maximum, direction
+  };
+}
+
+function question1() {
+  const t = CONFIG.task1, dR = t.fixedMark - CONFIG.rod.pivotMark;
+  return tr(
+    `A ${fmt(t.fixedMass)} kg mass is fixed ${fmt(dR)} m to the right of the pivot. A mass is hung on the left, ${fmt(state.distance)} m from the pivot. Find the maximum mass that can be hung on the left before the seesaw tips.`,
+    `一個 ${fmt(t.fixedMass)} kg 質量固定在支點右方 ${fmt(dR)} m。另一質量懸掛於支點左方 ${fmt(state.distance)} m。求蹺蹺板翻倒前左方可懸掛的最大質量。`
+  );
+}
+function question2() {
+  const t = CONFIG.task2;
+  const platform = state.platformMass === 0
+    ? tr("a light platform", "輕平台")
+    : tr(`a uniform platform of mass ${fmt(state.platformMass)} kg`, `質量為 ${fmt(state.platformMass)} kg 的均勻平台`);
+  return tr(
+    `A ${fmt(t.workerMass)} kg worker stands on ${platform}, ${fmt(CONFIG.rod.length)} m long. Cable A is at the ${mark(t.cableA)} m mark and cable B at the ${mark(t.cableB)} m mark. Each cable can hold at most ${fmt(t.Tmax)} N. Find the maximum distance from the platform's centre at which the worker can stand safely. State which cable limits the position on each side.`,
+    `一名 ${fmt(t.workerMass)} kg 工人站在長 ${fmt(CONFIG.rod.length)} m 的${platform}上。纜索 A 位於 ${mark(t.cableA)} m 刻度，纜索 B 位於 ${mark(t.cableB)} m 刻度。每條纜索最多承受 ${fmt(t.Tmax)} N。求工人安全站立時離平台中心的最大距離，並指出兩側的限制纜索。`
+  );
+}
+
+function renderUI() {
+  captureForm();
+  document.documentElement.lang = CONFIG.language === "zh" ? "zh-Hant" : "en";
+  $("languageButton").textContent = CONFIG.language === "en" ? "繁體中文" : "English";
+  $("teacherButton").textContent = tr("⚙ Teacher", "⚙ 教師");
+  $("modeBadge").textContent = CONFIG.mode === "assessment" ? tr("Assessment", "評估模式") : tr("Sandbox", "沙盒模式");
+  $("tab1").textContent = tr("Task 1 – Seesaw (No AI 🚫🤖)", "任務 1 — 蹺蹺板（禁用 AI 🚫🤖）");
+  $("tab2").textContent = tr("Task 2 – Suspended Platform (AI step-check 🤖✅)", "任務 2 — 吊船（可用 AI 檢查步驟 🤖✅）");
+  $("nameLabel").textContent = tr("Student name", "學生姓名");
+  $("classLabel").textContent = tr("Class", "班別");
+  $("gravityBadge").textContent = `g = ${CONFIG.g} N kg⁻¹`;
+  const c = CONFIG.drawing.colours;
+  $("legend").innerHTML = [
+    [c.weight, tr("↓ Weight", "↓ 重量")],
+    [c.tension, tr("↑ Tension", "↑ 張力")],
+    [c.ground, tr("↑ Ground normal reaction", "↑ 地面法向反作用力")],
+    [c.pivot, tr("↑ Pivot reaction", "↑ 支點反作用力")],
+    [c.clockwise, tr("↻ Clockwise moment", "↻ 順時針力矩")],
+    [c.anticlockwise, tr("↺ Anticlockwise moment", "↺ 逆時針力矩")]
+  ].map(([colour, label]) => `<span><i class="swatch" style="background:${colour}"></i>${label}</span>`).join("");
+
+  const t1 = CONFIG.task1, t2 = CONFIG.task2;
+  $("taskHost").innerHTML = `
+  <section id="task1" class="card" role="tabpanel" aria-labelledby="tab1">
+    <h2>${tr("Task 1 — Predict → Observe → Explain", "任務 1 — 預測 → 觀察 → 解釋")}</h2>
+    <p class="question">${esc(question1())}</p>
+    <h3>${tr("1. Predict without AI", "1. 不使用 AI 進行預測")}</h3>
+    <label class="field" for="predictionWork">${tr("Working", "計算過程")}</label>
+    <textarea id="predictionWork" aria-label="${tr("Prediction working", "預測計算過程")}"></textarea>
+    ${numField("predictionAnswer", tr("Final answer", "最終答案"), "kg", "any")}
+    <label class="check">
+      <input id="noAI" type="checkbox" aria-label="${tr("No AI declaration", "沒有使用 AI 聲明")}">
+      ${tr("I completed Task 1 without using AI tools.", "我在沒有使用 AI 工具下完成任務 1。")}
+    </label>
+    <button type="button" data-action="predict">${tr("Submit prediction", "提交預測")}</button>
+    <div id="predictionFeedback" class="feedback" aria-live="polite"></div>
+    <button id="studentSolution" class="secondary hidden" type="button" data-action="solution1">${tr("Show solution", "顯示解答")}</button>
+    <div id="studentSolutionText" class="solution hidden"></div>
+
+    <h3>${tr("2. Observe", "2. 觀察")}</h3>
+    <p id="lockNotice" class="note"></p>
+    <label class="field" for="massRange">${tr("Left mass", "左方質量")}:
+      <span id="massReadout"></span></label>
+    <div class="row">
+      <button id="massMinus" class="secondary" type="button" data-action="mass-minus"
+        aria-label="${tr("Decrease mass", "減少質量")}">−${fmt(t1.massButtonStep)} kg</button>
+      <input id="massRange" class="grow" data-sim="true" type="range"
+        min="${t1.massMin}" max="${t1.massMax}" step="${t1.massStep}"
+        aria-label="${tr("Left mass slider", "左方質量滑桿")}">
+      <button id="massPlus" class="secondary" type="button" data-action="mass-plus"
+        aria-label="${tr("Increase mass", "增加質量")}">+${fmt(t1.massButtonStep)} kg</button>
+    </div>
+    <label class="row">${tr("Mass", "質量")}
+      <input id="massNumber" data-sim="true" type="number"
+        min="${t1.massMin}" max="${t1.massMax}" step="${t1.massStep}"
+        aria-label="${tr("Left mass in kilograms", "左方質量，公斤")}"> kg
+    </label>
+    <div id="distanceControls">
+      <label class="field" for="distanceRange">${tr("Distance left of pivot", "支點左方距離")}:
+        <span id="distanceReadout"></span></label>
+      <input id="distanceRange" data-sim="true" type="range"
+        min="${t1.distanceMin}" max="${t1.distanceMax}" step="${t1.distanceStep}"
+        aria-label="${tr("Left load distance", "左方負載距離")}">
+    </div>
+    <label class="check">
+      <input id="rodWeight" data-sim="true" type="checkbox"
+        aria-label="${tr("Include rod weight", "包括桿的重量")}">
+      ${tr("Include rod weight", "包括桿的重量")} (${fmt(t1.rodMass)} kg)
+    </label>
+    <p class="note">${tr("Rod weight passes through the pivot → zero moment.", "桿重通過支點 → 力矩為零。")}</p>
+    <div class="row">
+      <button id="releaseButton" class="secondary" type="button" data-action="release">${tr("Hold level & release", "保持水平並放開")}</button>
+      <button type="button" class="warning" data-action="challenge">${tr("Challenge", "挑戰")}</button>
+    </div>
+    <div id="momentsPanel"></div>
+    <h3>${tr("3. Explain", "3. 解釋")}</h3>
+    <label class="field" for="explanation">${tr(
+      "Why is the ground reaction on the right end zero at the maximum mass?",
+      "為甚麼達到最大質量時右端地面反作用力為零？"
+    )}</label>
+    <textarea id="explanation" aria-label="${tr("Explanation", "解釋")}"></textarea>
+  </section>
+
+  <section id="task2" class="card" role="tabpanel" aria-labelledby="tab2">
+    <h2>${tr("Task 2 — Hong Kong window-cleaning gondola", "任務 2 — 香港大廈抹窗吊船")}</h2>
+    <p id="platformQuestion" class="question">${esc(question2())}</p>
+    <div class="row">
+      <button class="secondary" type="button" data-action="reset-worker">${tr("Reset worker", "重設工人位置")}</button>
+      <label id="safeLabel" class="check">
+        <input id="safeToggle" data-sim="true" type="checkbox"
+          aria-label="${tr("Show safe zone", "顯示安全範圍")}">
+        ${tr("Show safe zone", "顯示安全範圍")}
+      </label>
+    </div>
+    <label class="field" for="workerRange">${tr("Worker position", "工人位置")}</label>
+    <input id="workerRange" data-sim="true" type="range" min="0" max="${CONFIG.rod.length}"
+      step="${t2.workerStep}" aria-label="${tr("Worker position mark", "工人位置刻度")}">
+    <div id="platformMassControls">
+      <label class="field" for="platformMass">${tr("Platform mass", "平台質量")}:
+        <span id="platformMassReadout"></span></label>
+      <input id="platformMass" data-sim="true" type="range"
+        min="${t2.rodMassMin}" max="${t2.rodMassMax}" step="${t2.rodMassStep}"
+        aria-label="${tr("Platform mass slider", "平台質量滑桿")}">
+    </div>
+    <div id="tensionPanel"></div>
+    <p id="zoneNote" class="note hidden"></p>
+
+    <div class="step">
+      <h3>${tr("1. Forces acting on the platform", "1. 作用於平台的力")}</h3>
+      ${workField(1)}
+      <div class="choices">
+        ${[
+          ["forceTA", "T_A"],
+          ["forceTB", "T_B"],
+          ["forceW", tr("Worker's weight", "工人的重量")],
+          ["forceWr", tr("Platform's weight", "平台的重量")],
+          ["forceN", tr("Normal force from ground", "地面法向反作用力")],
+          ["forceF", tr("Friction", "摩擦力")],
+          ["forceP", tr("Reaction at a centre pivot", "中心支點反作用力")]
+        ].map(([id, label]) => `<label class="check"><input id="${id}" type="checkbox" aria-label="${esc(label)}">${label}</label>`).join("")}
+      </div>
+      ${stepButton(1)}
+    </div>
+
+    <div class="step">
+      <h3>${tr("2. Limiting cable", "2. 限制纜索")}</h3>
+      <p>${tr(`As the worker moves right, which cable's tension increases towards ${fmt(t2.Tmax)} N?`,
+        `工人向右移時，哪條纜索的張力會增加至 ${fmt(t2.Tmax)} N？`)}</p>
+      ${workField(2)}
+      <label class="row">${tr("Cable", "纜索")}
+        <select id="limitCable" aria-label="${tr("Right limiting cable", "右方限制纜索")}">
+          <option value="">${tr("Choose", "選擇")}</option><option value="A">A</option><option value="B">B</option>
+        </select>
+      </label>
+      ${stepButton(2)}
+    </div>
+
+    <div class="step">
+      <h3>${tr("3. Choose a pivot", "3. 選擇取矩點")}</h3>
+      <p>${tr("About which point should you take moments to eliminate T_A?", "應對哪一點取力矩以消去 T_A？")}</p>
+      ${workField(3)}
+      <label class="row">${tr("Pivot", "取矩點")}
+        <select id="rightPivot" aria-label="${tr("Pivot to eliminate tension A", "消去張力 A 的取矩點")}">
+          <option value="">${tr("Choose", "選擇")}</option><option value="A">A</option><option value="B">B</option>
+          <option value="centre">${tr("Centre", "中心")}</option>
+        </select>
+      </label>
+      ${stepButton(3)}
+    </div>
+
+    <div class="step">
+      <h3>${tr("4. Right-side limiting equation", "4. 右方臨界方程")}</h3>
+      ${workField(4)}
+      <p>${fmt(t2.Tmax)} × d_AB = W × (x − ${mark(t2.cableA)})${state.platformMass > 0 ? " + W_r × d_CA" : ""}</p>
+      ${numField("rightArm", "d_AB", "m")}
+      ${numField("rightWeight", "W", "N")}
+      <div id="rodEquationInputs" class="${state.platformMass > 0 ? "" : "hidden"}">
+        ${numField("rightRodWeight", "W_r", "N")}
+        ${numField("rightRodArm", "d_CA", "m")}
+      </div>
+      ${stepButton(4)}
+    </div>
+
+    <div class="step">
+      <h3>${tr("5. Solve the right-side equation", "5. 解右方方程")}</h3>
+      ${workField(5)}
+      ${numField("rightX", tr("Position mark x", "位置刻度 x"), "m")}
+      ${numField("rightDistance", tr("Distance from centre", "離中心距離"), "m")}
+      ${stepButton(5)}
+    </div>
+
+    <div class="step">
+      <h3>${tr("6. Repeat on the left", "6. 左方重複計算")}</h3>
+      <p>${tr("Set T_A to its maximum and take moments about B.", "令 T_A 達最大值，並對 B 點取力矩。")}</p>
+      ${workField(6)}
+      <label class="row">${tr("Limiting cable", "限制纜索")}
+        <select id="leftCable" aria-label="${tr("Left limiting cable", "左方限制纜索")}">
+          <option value="">${tr("Choose", "選擇")}</option><option value="A">A</option><option value="B">B</option>
+        </select>
+      </label>
+      <label class="row">${tr("Pivot", "取矩點")}
+        <select id="leftPivot" aria-label="${tr("Left pivot", "左方取矩點")}">
+          <option value="">${tr("Choose", "選擇")}</option><option value="A">A</option><option value="B">B</option>
+        </select>
+      </label>
+      ${numField("leftX", tr("Position mark x", "位置刻度 x"), "m")}
+      ${numField("leftDistance", tr("Distance from centre", "離中心距離"), "m")}
+      ${stepButton(6)}
+    </div>
+
+    <div class="step">
+      <h3>${tr("7. Conclusion", "7. 結論")}</h3>
+      ${workField(7)}
+      ${numField("finalDistance", tr("Maximum safe distance", "最大安全距離"), "m")}
+      <label class="row">${tr("Direction", "方向")}
+        <select id="finalDirection" aria-label="${tr("Direction of maximum safe distance", "最大安全距離方向")}">
+          <option value="">${tr("Choose", "選擇")}</option>
+          <option value="A">${tr("Left, towards A", "左方，向 A")}</option>
+          <option value="B">${tr("Right, towards B", "右方，向 B")}</option>
+          <option value="either">${tr("Either side equally", "兩側相同")}</option>
+          <option value="none">${tr("No safe position", "沒有安全位置")}</option>
+        </select>
+      </label>
+      ${stepButton(7)}
+    </div>
+    <button type="button" class="success" data-action="copy-ai">${tr("Copy prompt for AI checker", "複製 AI 檢查提示")}</button>
+    <p class="note">${tr("AI can make mistakes — verify its feedback with the simulation.", "AI 可能出錯 — 請用模擬驗證其回饋。")}</p>
+  </section>`;
+
+  restoreForm();
+  state.stepResults.forEach((result, i) => {
+    if (result) showStepFeedback(i + 1, result);
+  });
+  updateUI();
+}
+
+function bar(label, valueN, maxN, colour, status, limitN = null) {
+  const width = clamp(valueN / maxN * 100, 0, 100);
+  const limit = limitN === null ? "" : `<i class="limit-line" style="left:${clamp(limitN / maxN * 100, 0, 99.4)}%"></i>`;
+  return `<div class="bar-label"><span>${label}: ${unit(valueN, "N")}</span><span>${status}</span></div>
+    <div class="track"><div class="fill" style="width:${width}%;background:${colour}"></div>${limit}</div>`;
+}
+function momentBar(label, moment, maximum, colour) {
+  return `<div>${label}: ${unit(moment, "N m")}</div>
+    <div class="track"><div class="fill" style="width:${clamp(moment / maximum * 100, 0, 100)}%;background:${colour}"></div></div>`;
+}
+function tensionStatus(tension) {
+  if (tension < 0) return { text: tr("∿ Slack / cannot push", "∿ 鬆弛／不能推"), colour: CONFIG.drawing.colours.blue || CONFIG.drawing.colours.tension };
+  if (tension > CONFIG.task2.Tmax + 1e-9) return { text: tr("✖ Overloaded", "✖ 超載"), colour: CONFIG.drawing.colours.weight };
+  if (tension > CONFIG.task2.warningFraction * CONFIG.task2.Tmax) return { text: tr("⚠ Near limit", "⚠ 接近上限"), colour: CONFIG.drawing.colours.clockwise };
+  return { text: tr("✔ Within limit", "✔ 未超上限"), colour: CONFIG.drawing.colours.ground };
+}
+function task1Status() {
+  const p = seesawPhysics();
+  if (!canExplore1()) return { text: tr("🔒 Predict first. Numerical force and moment readouts are hidden.", "🔒 請先預測。力和力矩的數值讀數已隱藏。"), cls: "caution" };
+  if (p.sign === 0) return { text: tr("✅ On the point of tipping — this is the maximum mass. R = 0; the rod stays at its current angle.", "✅ 正處於翻倒臨界點 — 這就是最大質量。R = 0；桿保持目前角度。"), cls: "good" };
+  if (p.sign > 0) return { text: tr("✖ Tipped! The left end comes to rest on the ground.", "✖ 已翻倒！左端最終接觸地面。"), cls: "bad" };
+  return { text: tr("✔ The right end rests on the ground.", "✔ 右端接觸地面。"), cls: "caution" };
+}
+function task2Status() {
+  const p = platformPhysics(), notices = [];
+  if (p.slackA || p.slackB) notices.push(tr(
+    `∿ Platform tips — cable ${p.slackA ? "A" : "B"} cannot push!`,
+    `∿ 平台翻倒 — 纜索 ${p.slackA ? "A" : "B"} 不能推！`
+  ));
+  if (p.overloadA) notices.push(tr("✖ Cable A overloaded!", "✖ 纜索 A 超載！"));
+  if (p.overloadB) notices.push(tr("✖ Cable B overloaded!", "✖ 纜索 B 超載！"));
+  if (notices.length) return { text: notices.join(" "), cls: "bad" };
+  if (Math.max(p.TA, p.TB) > CONFIG.task2.warningFraction * CONFIG.task2.Tmax)
+    return { text: tr("⚠ Equilibrium, but a cable is near its limit.", "⚠ 處於平衡，但纜索接近上限。"), cls: "caution" };
+  return { text: tr("✅ Safe equilibrium: both force and moment balance.", "✅ 安全平衡：合力與合力矩均為零。"), cls: "good" };
+}
+function zoneVisible() {
+  return state.teacherSafeOverride ||
+    (state.safeRequested && (CONFIG.mode === "sandbox" || state.finalSubmitted));
+}
+function updateUI() {
+  if (!$("task1")) return;
+  $("task1").classList.toggle("hidden", state.task !== 1);
+  $("task2").classList.toggle("hidden", state.task !== 2);
+  $("tab1").setAttribute("aria-selected", String(state.task === 1));
+  $("tab2").setAttribute("aria-selected", String(state.task === 2));
+  const open = canExplore1();
+  ["massRange", "massNumber", "massMinus", "massPlus", "releaseButton", "rodWeight", "distanceRange"].forEach(id => $(id).disabled = !open);
+  $("lockNotice").textContent = open
+    ? tr("Raise the mass and compare the observed tipping point with your prediction.", "增加質量，比較觀察到的翻倒臨界點與你的預測。")
+    : tr("🔒 Controls unlock after you submit working, an answer and the No-AI declaration.", "🔒 提交計算過程、答案及沒有使用 AI 聲明後，控制項才會解鎖。");
+  $("massReadout").textContent = open ? unit(state.mass, "kg") : tr("hidden until prediction", "預測前隱藏");
+  $("massRange").value = state.mass;
+  if (document.activeElement !== $("massNumber")) $("massNumber").value = state.mass.toFixed(2);
+  $("distanceRange").value = state.distance;
+  $("distanceReadout").textContent = unit(state.distance, "m");
+  $("distanceControls").classList.toggle("hidden", CONFIG.mode !== "sandbox");
+  $("rodWeight").checked = state.rodWeight;
+  $("studentSolution").classList.toggle("hidden", state.attempts < CONFIG.task1.maxAttempts);
+  $("predictionFeedback").textContent = state.feedback1;
+  $("predictionFeedback").className = "feedback " + (state.feedback1Good ? "good" : "bad");
+  const p1 = seesawPhysics(), colours = CONFIG.drawing.colours;
+  if (CONFIG.showReadouts && open) {
+    const maximum = Math.max(p1.acw, p1.cw, 1);
+    $("momentsPanel").innerHTML = `
+      <h3>${tr("Moments about the pivot", "對支點的力矩")}</h3>
+      ${momentBar(tr("↺ Anticlockwise", "↺ 逆時針"), p1.acw, maximum, colours.anticlockwise)}
+      ${momentBar(tr("↻ Clockwise", "↻ 順時針"), p1.cw, maximum, colours.clockwise)}
+      <div class="stats">
+        <div class="stat">${tr("Net loading moment before ground support", "未計地面支持的負載合力矩")}
+          <span>${unit(Math.abs(p1.loadNet), "N m")} ${p1.sign > 0 ? tr("anticlockwise", "逆時針") : p1.sign < 0 ? tr("clockwise", "順時針") : ""}</span></div>
+        <div class="stat">R <span>${unit(p1.R, "N")}</span></div>
+      </div>
+      <p class="note">${tr(
+        "When an end is resting on the ground, its reaction supplies the opposing moment; the total moment is then zero.",
+        "當一端靜止於地面時，地面反作用力提供相反力矩；此時總合力矩為零。"
+      )}</p>`;
+  } else $("momentsPanel").innerHTML = `<p class="note">${tr("🔒 Numerical moment and force readouts are hidden.", "🔒 力矩和力的數值讀數已隱藏。")}</p>`;
+
+  const p2 = platformPhysics(), t2 = CONFIG.task2;
+  $("workerRange").value = state.workerX;
+  $("platformMass").value = state.platformMass;
+  $("platformMassReadout").textContent = unit(state.platformMass, "kg");
+  $("platformMassControls").classList.toggle("hidden", CONFIG.mode !== "sandbox");
+  $("safeLabel").classList.toggle("hidden", CONFIG.mode === "assessment" && !state.finalSubmitted);
+  $("safeToggle").checked = state.safeRequested;
+  const offset = state.workerX - centre();
+  const position = Math.abs(offset) < 1e-9
+    ? tr("at the centre", "位於中心")
+    : tr(`${fmt(Math.abs(offset))} m ${offset > 0 ? "right" : "left"} of centre`,
+      `中心${offset > 0 ? "右" : "左"}方 ${fmt(Math.abs(offset))} m`);
+  let tensionHTML = `<p>${tr("Worker", "工人")}: ${mark(state.workerX)} m ${tr("mark", "刻度")} — ${position}</p>`;
+  if (CONFIG.showReadouts) {
+    const scaleMax = Math.max(t2.Tmax * 1.2, p2.TA, p2.TB, 1);
+    const a = tensionStatus(p2.TA), b = tensionStatus(p2.TB);
+    tensionHTML += bar("T_A", p2.TA, scaleMax, a.colour, a.text, t2.Tmax);
+    tensionHTML += bar("T_B", p2.TB, scaleMax, b.colour, b.text, t2.Tmax);
+    tensionHTML += `<p>${tr("Black line: cable limit", "黑線：纜索上限")} = ${unit(t2.Tmax, "N")}</p>`;
+    const slack = p2.slackA || p2.slackB;
+    const overloaded = p2.overloadA || p2.overloadB;
+    tensionHTML += `<div class="stats">
+      <div class="stat">ΣF_y <span>${unit(p2.netForce, "N")}</span></div>
+      <div class="stat">Στ_A <span>${unit(p2.netMoment, "N m")}</span></div>
+      </div><p class="note">${slack ? tr(
+        "Negative required tension is impossible. These residuals use zero force in the slack cable; no horizontal equilibrium exists.",
+        "負的所需張力不可能出現。以上剩餘合力與合力矩按鬆弛纜索張力為零計算；水平平衡不存在。"
+      ) : overloaded ? tr(
+        "The displayed tensions are the forces required for horizontal equilibrium, not safe forces the cables are guaranteed to provide.",
+        "顯示的張力是維持水平平衡所需的力，不代表纜索可安全提供這些力。"
+      ) : tr("Both equilibrium conditions are satisfied.", "兩項平衡條件均已滿足。")}</p>`;
+  } else tensionHTML += `<p>${tr("🔒 Force readings hidden by teacher.", "🔒 教師已隱藏力的讀數。")}</p>`;
+  $("tensionPanel").innerHTML = tensionHTML;
+  const zone = safeZone();
+  $("zoneNote").classList.toggle("hidden", !zoneVisible());
+  if (zoneVisible()) {
+    $("zoneNote").textContent = !zone.exists
+      ? tr("✖ No safe position exists with these masses and cable limits.", "✖ 在目前質量和纜索上限下，沒有安全位置。")
+      : state.platformMass === 0
+      ? tr(
+        `Safe zone: ${fmt(zone.min)} ≤ x ≤ ${fmt(zone.max)} m. Before clipping at platform ends, this zone is centred on midpoint AB (${fmt((t2.cableA + t2.cableB) / 2)} m), not the platform centre (${fmt(centre())} m).`,
+        `安全範圍：${fmt(zone.min)} ≤ x ≤ ${fmt(zone.max)} m。未受平台端點截限前，範圍以 AB 中點（${fmt((t2.cableA + t2.cableB) / 2)} m）為中心，而非平台中心（${fmt(centre())} m）。`
+      )
+      : tr(
+        `Safe zone: ${fmt(zone.min)} ≤ x ≤ ${fmt(zone.max)} m. Platform weight can shift the worker's safe interval away from midpoint AB.`,
+        `安全範圍：${fmt(zone.min)} ≤ x ≤ ${fmt(zone.max)} m。平台重量可使工人的安全範圍偏離 AB 中點。`
+      );
+  }
+  const status = state.task === 1 ? task1Status() : task2Status();
+  $("sceneStatus").textContent = status.text;
+  $("sceneStatus").className = "banner " + status.cls;
+  $("sceneHelp").textContent = state.task === 1
+    ? tr("Sandbox: drag the left hanger or use its distance slider. Hold level & release to test neutral equilibrium.", "沙盒模式：拖曳左方掛架或使用距離滑桿。保持水平並放開以測試隨遇平衡。")
+    : tr(`Drag the worker. Focus the diagram: ←/→ moves ${fmt(t2.workerStep)} m; Shift + ←/→ moves ${fmt(t2.workerLargeStep)} m. The position slider is also keyboard accessible.`,
+      `拖曳工人。聚焦圖像後：←/→ 移動 ${fmt(t2.workerStep)} m；Shift + ←/→ 移動 ${fmt(t2.workerLargeStep)} m。位置滑桿也可用鍵盤操作。`);
+  canvas.setAttribute("aria-label", state.task === 1
+    ? tr("Seesaw diagram. Adjustable load available in Sandbox mode.", "蹺蹺板圖像。沙盒模式可調整負載位置。")
+    : tr("Gondola diagram. Use left and right arrow keys to move the worker.", "吊船圖像。使用左右方向鍵移動工人。"));
+}
+
+function beginTip() {
+  const p = seesawPhysics();
+  if (p.sign === 0) { state.motion = null; return; }
+  state.motion = {
+    from: state.angle, to: p.target,
+    start: performance.now(), duration: CONFIG.animation.tippingSeconds * 1000
+  };
+}
+function setMass(m) {
+  if (!canExplore1() || !Number.isFinite(m)) return;
+  state.mass = Number(clamp(snap(m, CONFIG.task1.massStep), CONFIG.task1.massMin, CONFIG.task1.massMax).toFixed(6));
+  if (!state.holdUntil) beginTip();
+  updateUI();
+}
+function setDistance(d) {
+  if (CONFIG.mode !== "sandbox" || !canExplore1()) return;
+  state.distance = Number(clamp(snap(d, CONFIG.task1.distanceStep), CONFIG.task1.distanceMin, CONFIG.task1.distanceMax).toFixed(6));
+  state.predictionCorrect = false;
+  beginTip();
+  const question = $("task1").querySelector(".question");
+  question.textContent = question1();
+  updateUI();
+}
+function setWorker(x) {
+  if (!Number.isFinite(x)) return;
+  state.workerX = Number(clamp(snap(x, CONFIG.task2.workerStep), 0, CONFIG.rod.length).toFixed(6));
+  updateUI();
+}
+function submitPrediction() {
+  captureForm();
+  if (!value("predictionWork").trim() || value("predictionAnswer").trim() === "" ||
+      !Number.isFinite(Number(value("predictionAnswer"))) || Number(value("predictionAnswer")) < 0 ||
+      !checked("noAI")) {
+    state.feedback1 = tr("Please enter your working, a non-negative answer, and tick the No-AI declaration.", "請填寫計算過程、非負答案，並勾選沒有使用 AI 聲明。");
+    state.feedback1Good = false;
+    updateUI();
+    return;
+  }
+  state.attempts++;
+  state.allPredictionAttempts++;
+  state.predictionSubmitted = true;
+  state.predictionCorrect = closeNumber(value("predictionAnswer"), seesawPhysics().maximum);
+  state.feedback1Good = state.predictionCorrect;
+  if (state.predictionCorrect) {
+    state.feedback1 = tr("✅ Within tolerance. Now observe and explain.", "✅ 在容許誤差內。現在請觀察及解釋。");
+  } else {
+    const hints = [
+      tr("Which moments act about the pivot?", "哪些力矩作用於支點？"),
+      tr("At the maximum mass, what is the reaction from the ground?", "達到最大質量時，地面反作用力是多少？"),
+      tr("Does the rod's own weight produce a moment about the pivot?", "桿本身的重量會對支點產生力矩嗎？")
+    ];
+    state.feedback1 = "❌ " + hints[Math.min(state.attempts - 1, hints.length - 1)] +
+      tr(" You may revise your prediction; observation is now unlocked.", " 你可以修改預測；觀察功能現已解鎖。");
+  }
+  updateUI();
+}
+function challenge() {
+  captureForm();
+  const choices = CONFIG.task1.challengeDistances;
+  const pool = choices.filter(d => Math.abs(d - state.distance) > 1e-9);
+  const list = pool.length ? pool : choices;
+  state.distance = list[Math.floor(Math.random() * list.length)];
+  state.mass = CONFIG.task1.massMin;
+  state.attempts = 0;
+  state.predictionSubmitted = false;
+  state.predictionCorrect = false;
+  state.feedback1 = "";
+  state.challenges++;
+  state.holdUntil = 0;
+  ["predictionWork", "predictionAnswer", "noAI", "explanation"].forEach(id => {
+    state.form[id] = id === "noAI" ? false : "";
+    const el = $(id);
+    if (el) { if (el.type === "checkbox") el.checked = false; else el.value = ""; }
+  });
+  beginTip();
+  renderUI();
+}
+
+function showStepFeedback(n, result) {
+  const fb = $("feedback" + n);
+  if (!fb) return;
+  fb.textContent = result.ok
+    ? tr("✅ Structured inputs are correct. Check your written reasoning and units too.", "✅ 結構化輸入正確。亦請檢查文字推理及單位。")
+    : "❌ " + tr(result.en, result.zh);
+  fb.className = "feedback " + (result.ok ? "good" : "bad");
+}
+function checkStep(n) {
+  captureForm();
+  const t = CONFIG.task2, z = safeZone(), p = platformPhysics();
+  let ok = false, en = "", zh = "";
+  state.stepAttempts[n - 1]++;
+  if (n === 1) {
+    ok = checked("forceTA") && checked("forceTB") && checked("forceW") &&
+      checked("forceWr") === (state.platformMass > 0) &&
+      !checked("forceN") && !checked("forceF") && !checked("forceP");
+    en = "Draw the platform's free-body diagram: cable tensions and the relevant weights. Is there any ground contact or centre pivot?";
+    zh = "畫平台的受力圖：纜索張力及相關重量。平台有接觸地面或中心支點嗎？";
+  } else if (n === 2) {
+    ok = value("limitCable") === "B";
+    en = "Which cable supports an increasing share of the load as the worker moves right?";
+    zh = "工人向右移時，哪條纜索分擔的負荷會增加？";
+  } else if (n === 3) {
+    ok = value("rightPivot") === "A";
+    en = "A force has zero moment about a point on its line of action. Where does T_A act?";
+    zh = "力對其作用線上的點之力矩為零。T_A 作用在哪裏？";
+  } else if (n === 4) {
+    ok = closeNumber(value("rightArm"), p.D) && closeNumber(value("rightWeight"), p.W);
+    if (state.platformMass > 0) ok = ok &&
+      closeNumber(value("rightRodWeight"), p.Wr) &&
+      closeNumber(value("rightRodArm"), centre() - t.cableA);
+    en = "Use the distance from A to B, not a mark measured from the left end. Convert masses to weights using the current g; include platform weight when non-zero.";
+    zh = "使用 A 至 B 的距離，不是由左端起的刻度。按目前 g 將質量轉成重量；平台重量非零時也須包括。";
+  } else if (n === 5) {
+    ok = closeNumber(value("rightX"), z.rightOverloadMark) &&
+      closeNumber(value("rightDistance"), Math.abs(z.rightOverloadMark - centre()));
+    en = "Solve your limiting equation for the position mark x, then find the distance between x and the centre mark.";
+    zh = "先用臨界方程求位置刻度 x，再求 x 與中心刻度之間的距離。";
+  } else if (n === 6) {
+    ok = value("leftCable") === "A" && value("leftPivot") === "B" &&
+      closeNumber(value("leftX"), z.leftOverloadMark) &&
+      closeNumber(value("leftDistance"), Math.abs(z.leftOverloadMark - centre()));
+    en = "At the left overload boundary, set T_A to its maximum. Take moments about B and measure every moment arm from B.";
+    zh = "左方超載臨界點應令 T_A 達最大值。對 B 取力矩，所有力臂都須由 B 量度。";
+  } else if (n === 7) {
+    const submitted = value("finalDirection") !== "" &&
+      (value("finalDirection") === "none" || value("finalDistance").trim() !== "");
+    if (!submitted) {
+      showStepFeedback(7, {
+        ok: false,
+        en: "Enter a distance and direction, or explicitly choose 'No safe position'.",
+        zh: "請填寫距離和方向，或明確選擇「沒有安全位置」。"
+      });
+      return;
+    }
+    state.finalSubmitted = true;
+    ok = z.exists
+      ? closeNumber(value("finalDistance"), z.maximum) && value("finalDirection") === z.direction
+      : value("finalDirection") === "none";
+    en = "Compare the allowed distances from the platform centre, not midpoint AB. Also check non-negative tensions, both cable limits, and the platform ends.";
+    zh = "比較離平台中心的允許距離，不是離 AB 中點的距離。亦須檢查張力非負、兩條纜索上限和平台端點。";
+  }
+  if (!value("work" + n).trim()) {
+    ok = false;
+    en = "Add your own working or reasoning before checking this step.";
+    zh = "檢查此步前，請先填寫自己的計算過程或推理。";
+  }
+  const result = { ok, en, zh };
+  state.stepResults[n - 1] = result;
+  showStepFeedback(n, result);
+  updateUI();
+}
+
+/* Canvas drawing uses CSS pixels and a separate device-pixel backing store. */
+function resizeCanvas() {
+  const width = Math.max(CONFIG.drawing.minimumCanvasWidth, Math.round(canvas.clientWidth));
+  const height = Math.round(canvas.clientHeight);
+  const dpr = window.devicePixelRatio || 1;
+  if (width !== state.width || height !== state.height || dpr !== state.dpr) {
+    state.width = width; state.height = height; state.dpr = dpr;
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+function drawLine(x1, y1, x2, y2, colour, width = 2, dash = []) {
+  ctx.save();
+  ctx.strokeStyle = colour; ctx.lineWidth = width; ctx.setLineDash(dash);
+  ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+  ctx.restore();
+}
+function drawText(s, x, y, colour = CONFIG.drawing.colours.ink, size = 16, align = "center", bold = false) {
+  ctx.save();
+  ctx.fillStyle = colour;
+  ctx.font = `${bold ? "700 " : ""}${size}px Arial, Helvetica, sans-serif`;
+  ctx.textAlign = align; ctx.textBaseline = "middle";
+  ctx.fillText(s, x, y);
+  ctx.restore();
+}
+function roundedBox(x, y, w, h, fill, stroke = null) {
+  ctx.save(); ctx.fillStyle = fill; ctx.strokeStyle = stroke || fill;
+  ctx.beginPath();
+  const r = Math.min(7, h / 2, w / 2);
+  ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath(); ctx.fill(); if (stroke) ctx.stroke(); ctx.restore();
+}
+function arrow(x, y, signedLength, colour, label, labelOffset = 0) {
+  if (Math.abs(signedLength) < .25) {
+    if (label) drawText(label, x + 10, y + labelOffset, colour, 16, "left");
+    return;
+  }
+  const end = y + signedLength, direction = Math.sign(signedLength);
+  drawLine(x, y, x, end, colour, 3);
+  const head = Math.min(10, Math.max(4, Math.abs(signedLength) * .45));
+  ctx.save(); ctx.fillStyle = colour; ctx.beginPath();
+  ctx.moveTo(x, end);
+  ctx.lineTo(x - head * .55, end - direction * head);
+  ctx.lineTo(x + head * .55, end - direction * head);
+  ctx.closePath(); ctx.fill(); ctx.restore();
+  if (label) drawText(label, x + 10, (y + end) / 2 + labelOffset, colour, 16, "left");
+}
+function forceScale(forces) {
+  const max = Math.max(1, ...forces.map(x => Math.abs(x)));
+  const pixels = Math.min(CONFIG.drawing.desiredPixelsPerNewton, CONFIG.drawing.maximumArrowLength / max);
+  const targetN = 62 / pixels;
+  const power = Math.pow(10, Math.floor(Math.log10(targetN)));
+  const candidates = [1, 2, 5, 10].map(n => n * power);
+  const key = candidates.reduce((a, b) => Math.abs(a - targetN) < Math.abs(b - targetN) ? a : b);
+  return { pixels, key };
+}
+function drawScale(scale, hidden) {
+  const w = state.width, y = state.height - 24;
+  if (hidden) {
+    drawText(tr("Force values hidden: arrows indicate direction only.", "力的數值已隱藏：箭頭只表示方向。"), w / 2, y, "#4b6075");
+    return;
+  }
+  const length = scale.key * scale.pixels;
+  drawLine(28, y, 28 + length, y, "#14273e", 3);
+  drawLine(28, y - 6, 28, y + 6, "#14273e", 2);
+  drawLine(28 + length, y - 6, 28 + length, y + 6, "#14273e", 2);
+  drawText(tr(`Force scale: this length = ${unit(scale.key, "N")}`,
+    `力的比例尺：此長度 = ${unit(scale.key, "N")}`), 42 + length, y, "#4b6075", 16, "left");
+}
+function momentArc(x, y, r, clockwise, colour, label) {
+  const start = clockwise ? -2.5 : -.64;
+  const end = clockwise ? -.64 : -2.5;
+  ctx.save(); ctx.strokeStyle = colour; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.arc(x, y, r, start, end, !clockwise); ctx.stroke();
+  const px = x + r * Math.cos(end), py = y + r * Math.sin(end);
+  const a = end + (clockwise ? Math.PI / 2 : -Math.PI / 2);
+  ctx.fillStyle = colour; ctx.beginPath(); ctx.moveTo(px, py);
+  ctx.lineTo(px - 10 * Math.cos(a - .5), py - 10 * Math.sin(a - .5));
+  ctx.lineTo(px - 10 * Math.cos(a + .5), py - 10 * Math.sin(a + .5));
+  ctx.closePath(); ctx.fill(); ctx.restore();
+  drawText(label, x, y + 16, colour, 16);
+}
+function ruler(geometry, keyMarks) {
+  const { x0, ppm, rulerY } = geometry, r = CONFIG.rod;
+  drawLine(x0, rulerY, x0 + r.length * ppm, rulerY, "#455b70", 2);
+  const count = Math.floor(r.length / r.minorTick + 1e-8);
+  for (let i = 0; i <= count; i++) {
+    const m = i * r.minorTick, x = x0 + m * ppm;
+    const labelled = Math.abs(m / r.labelTick - Math.round(m / r.labelTick)) < 1e-6;
+    const key = keyMarks.some(k => Math.abs(k - m) < 1e-6);
+    drawLine(x, rulerY, x, rulerY + (labelled ? 13 : 7), "#455b70", key ? 2.5 : 1);
+    if (labelled) drawText(mark(m), x, rulerY + 29, "#14273e", 16, "center", key);
+  }
+  drawText(tr("Marks measured from the LEFT end / m", "由左端起量度的刻度／m"),
+    state.width / 2, rulerY + 60, "#4b6075");
+}
+function load(x, y, label, mass, locked, scale, readouts) {
+  drawLine(x, y, x, y - 20, "#14273e", 2);
+  roundedBox(x - 18, y - 48, 36, 28, "#d6e0ec", "#14273e");
+  drawLine(x - 13, y - 38, x + 13, y - 38, "#647c94", 2);
+  drawLine(x - 13, y - 29, x + 13, y - 29, "#647c94", 2);
+  drawText(label + (locked ? " 🔒" : ""), x, y - 66, "#14273e", 16);
+  arrow(x, y + 5, readouts ? mass * CONFIG.g * scale.pixels : 38,
+    CONFIG.drawing.colours.weight, readouts ? `W = ${unit(mass * CONFIG.g, "N")}` : "W");
+}
+function drawSeesaw() {
+  const w = state.width, h = state.height, r = CONFIG.rod, t = CONFIG.task1;
+  const x0 = 62, ppm = (w - 124) / r.length, pivotX = x0 + r.pivotMark * ppm;
+  const groundY = h - 186, pivotY = groundY - r.fulcrumHeight * ppm;
+  const geometry = { x0, ppm, rulerY: h - 123, pivotX, pivotY, groundY };
+  state.geometry = geometry;
+  const point = m => ({
+    x: pivotX + (m - r.pivotMark) * ppm * Math.cos(state.angle),
+    y: pivotY + (m - r.pivotMark) * ppm * Math.sin(state.angle)
+  });
+  const p = seesawPhysics(), c = CONFIG.drawing.colours, readouts = allowedReadouts();
+  const scale = forceScale([state.mass * CONFIG.g, t.fixedMass * CONFIG.g, p.R, p.P, p.rodMass * CONFIG.g]);
+  drawText(tr(`Uniform rod — length ${unit(r.length, "m")}`, `均勻桿 — 長度 ${unit(r.length, "m")}`), w / 2, 28, c.ink, 20, "center", true);
+  momentArc(pivotX - 100, 118, CONFIG.drawing.momentArcRadius, false, c.anticlockwise, tr("↺ Anticlockwise", "↺ 逆時針"));
+  momentArc(pivotX + 100, 118, CONFIG.drawing.momentArcRadius, true, c.clockwise, tr("↻ Clockwise", "↻ 順時針"));
+  ctx.save(); ctx.fillStyle = "#e0e5ea"; ctx.fillRect(25, groundY, w - 50, 42); ctx.restore();
+  drawLine(25, groundY, w - 25, groundY, "#637487", 2);
+  ctx.save(); ctx.fillStyle = "#778493"; ctx.beginPath();
+  ctx.moveTo(pivotX, pivotY); ctx.lineTo(pivotX - 27, groundY); ctx.lineTo(pivotX + 27, groundY);
+  ctx.closePath(); ctx.fill(); ctx.restore();
+  const left = point(0), right = point(r.length);
+  drawLine(left.x, left.y, right.x, right.y, "#284764", 10);
+  drawText(tr("pivot", "支點"), pivotX, groundY + 24, c.ink);
+  drawText(tr(`height ${unit(r.fulcrumHeight, "m")}`, `高度 ${unit(r.fulcrumHeight, "m")}`),
+    pivotX + 40, groundY + 24, "#4b6075", 16, "left");
+  const l = point(r.pivotMark - state.distance), f = point(t.fixedMark);
+  load(l.x, l.y, tr("Left hanger", "左方掛架"), state.mass, false, scale, readouts);
+  load(f.x, f.y, tr(`${fmt(t.fixedMass)} kg fixed`, `${fmt(t.fixedMass)} kg 固定`), t.fixedMass, true, scale, readouts);
+  arrow(pivotX, pivotY - 4, readouts ? -p.P * scale.pixels : -42, c.pivot, readouts ? `P = ${unit(p.P, "N")}` : "P", -10);
+  if (state.rodWeight) {
+    arrow(pivotX, pivotY + 5, readouts ? p.rodMass * CONFIG.g * scale.pixels : 35,
+      c.weight, readouts ? `W_r = ${unit(p.rodMass * CONFIG.g, "N")}` : "W_r", 10);
+  }
+  if (p.sign !== 0) {
+    const end = p.sign > 0 ? left : right;
+    const contacting = Math.abs(end.y - groundY) < 3 && !state.holdUntil;
+    if (contacting) arrow(end.x, end.y - 3, readouts ? -p.R * scale.pixels : -38,
+      c.ground, readouts ? `R = ${unit(p.R, "N")}` : "R");
+  } else {
+    drawText(readouts ? "R = 0.00 N" : "R", right.x - 8, groundY - 22, c.ground, 16, "right");
+  }
+  ruler(geometry, [0, r.pivotMark, t.fixedMark, r.pivotMark - state.distance, r.length]);
+  drawScale(scale, !readouts);
+}
+function person(x, footY) {
+  const c = CONFIG.drawing.colours.ink;
+  drawLine(x - 9, footY, x, footY - 25, c, 4);
+  drawLine(x + 9, footY, x, footY - 25, c, 4);
+  drawLine(x, footY - 25, x, footY - 60, c, 4);
+  drawLine(x, footY - 51, x - 18, footY - 33, c, 3);
+  drawLine(x, footY - 51, x + 18, footY - 33, c, 3);
+  ctx.save(); ctx.fillStyle = "#edb887"; ctx.beginPath(); ctx.arc(x, footY - 74, 11, 0, Math.PI * 2); ctx.fill();
+  ctx.fillStyle = "#e0a700"; ctx.beginPath(); ctx.arc(x, footY - 78, 13, Math.PI, 0); ctx.fill();
+  ctx.fillRect(x - 16, footY - 79, 32, 5); ctx.restore();
+}
+function cable(x, roofY, platformY, slack, overloaded, time) {
+  const colour = CONFIG.drawing.colours.tension;
+  ctx.save(); ctx.strokeStyle = colour; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(x, roofY);
+  const count = 30;
+  for (let i = 1; i <= count; i++) {
+    const f = i / count, y = roofY + f * (platformY - roofY);
+    let offset = 0;
+    if (slack) offset = 9 * Math.sin(f * Math.PI * 7);
+    else if (overloaded && !matchMedia("(prefers-reduced-motion: reduce)").matches)
+      offset = CONFIG.animation.shakeAmplitude *
+        Math.sin(time * CONFIG.animation.shakeFrequency * Math.PI * 2 / 1000) *
+        Math.sin(f * Math.PI * 4);
+    ctx.lineTo(x + offset, y);
+  }
+  ctx.stroke(); ctx.restore();
+}
+function drawPlatform(time) {
+  const w = state.width, h = state.height, r = CONFIG.rod, t = CONFIG.task2, c = CONFIG.drawing.colours;
+  const x0 = 62, ppm = (w - 124) / r.length, rodY = h - 240, roofY = 84;
+  const X = m => x0 + m * ppm;
+  const geometry = { x0, ppm, rulerY: h - 123, rodY, roofY };
+  state.geometry = geometry;
+  const p = platformPhysics(), z = safeZone(), readouts = allowedReadouts();
+  const scale = forceScale([p.W, p.Wr, p.actualA, p.actualB]);
+  drawText(tr("Hong Kong skyscraper — window-cleaning gondola", "香港摩天大廈 — 抹窗吊船"), w / 2, 27, c.ink, 19, "center", true);
+  drawLine(25, roofY, w - 25, roofY, "#72869a", 12);
+  if (zoneVisible() && z.exists) {
+    ctx.save(); ctx.fillStyle = "#15744222";
+    ctx.fillRect(X(z.min), rodY - 32, (z.max - z.min) * ppm, 62); ctx.restore();
+    drawText(tr("✔ Safe zone", "✔ 安全範圍"), (X(z.min) + X(z.max)) / 2, rodY + 51, c.ground, 16, "center", true);
+  }
+  drawLine(X(centre()), roofY + 12, X(centre()), rodY + 25, "#65778a", 1.5, [6, 6]);
+  const midpoint = (t.cableA + t.cableB) / 2;
+  drawText(tr(`Centre ${mark(centre())} m`, `中心 ${mark(centre())} m`), X(centre()) - 8, roofY + 21, "#4b6075", 16, "right");
+  drawLine(X(midpoint), rodY - 13, X(midpoint), rodY + 20, "#7240b3", 2, [3, 4]);
+  drawText(tr(`Midpoint AB ${mark(midpoint)} m`, `AB 中點 ${mark(midpoint)} m`), X(midpoint) + 10, rodY + 25, "#7240b3", 16, "left");
+  [["A", t.cableA, p.TA, p.slackA, p.overloadA], ["B", t.cableB, p.TB, p.slackB, p.overloadB]].forEach(([name, m, tension, slack, overloaded]) => {
+    const x = X(m);
+    cable(x, roofY, rodY, slack, overloaded, time);
+    roundedBox(x - 65, roofY + 40, 130, 58, "#ffffff", "#526b83");
+    drawText(`▥ ${name}`, x, roofY + 54, c.tension, 16, "center", true);
+    drawText(readouts ? unit(tension, "N") : "T_" + name, x, roofY + 78, tensionStatus(tension).colour, 16);
+    drawText(`${name} · ${mark(m)} m`, x, roofY - 24, c.ink, 16, "center", true);
+  });
+  drawLine(X(0), rodY, X(r.length), rodY, "#284764", 11);
+  person(X(state.workerX), rodY - 6);
+  arrow(X(state.workerX), rodY + 7, readouts ? p.W * scale.pixels : 45,
+    c.weight, readouts ? `W = ${unit(p.W, "N")}` : "W");
+  arrow(X(t.cableA), rodY - 7, readouts ? -p.actualA * scale.pixels : -45,
+    c.tension, readouts ? `T_A = ${unit(p.actualA, "N")}` : "T_A");
+  arrow(X(t.cableB), rodY - 7, readouts ? -p.actualB * scale.pixels : -45,
+    c.tension, readouts ? `T_B = ${unit(p.actualB, "N")}` : "T_B");
+  if (state.platformMass > 0) arrow(X(centre()), rodY + 7,
+    readouts ? p.Wr * scale.pixels : 35, c.weight,
+    readouts ? `W_r = ${unit(p.Wr, "N")}` : "W_r", 16);
+  ruler(geometry, [0, centre(), t.cableA, t.cableB, midpoint, r.length]);
+  drawScale(scale, !readouts);
+}
+function frame(now) {
+  const elapsed = Math.max(0, Math.min(1000, now - state.lastTime));
+  if (!document.hidden && $("teacherModal").classList.contains("hidden") && $("copyModal").classList.contains("hidden"))
+    state.time[state.task - 1] += elapsed;
+  state.lastTime = now;
+  if (state.holdUntil && now >= state.holdUntil) {
+    state.holdUntil = 0; beginTip();
+  }
+  if (state.motion) {
+    const f = clamp((now - state.motion.start) / state.motion.duration, 0, 1);
+    const ease = f * f * (3 - 2 * f);
+    state.angle = state.motion.from + (state.motion.to - state.motion.from) * ease;
+    if (f >= 1) state.motion = null;
+  }
+  resizeCanvas();
+  ctx.clearRect(0, 0, state.width, state.height);
+  if (state.task === 1) drawSeesaw(); else drawPlatform(now);
+  requestAnimationFrame(frame);
+}
+function pointerPosition(e) {
+  const rect = canvas.getBoundingClientRect();
+  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
+canvas.addEventListener("pointerdown", e => {
+  const g = state.geometry;
+  if (!g) return;
+  const pt = pointerPosition(e);
+  if (state.task === 2) {
+    const workerPx = g.x0 + state.workerX * g.ppm;
+    if (Math.abs(pt.x - workerPx) > 48 || pt.y < g.rodY - 115 || pt.y > g.rodY + 35) return;
+    state.drag = { type: "worker", offset: pt.x - workerPx };
+  } else {
+    if (CONFIG.mode !== "sandbox" || !canExplore1()) return;
+    const d = state.distance, x = g.pivotX - d * g.ppm * Math.cos(state.angle);
+    const y = g.pivotY - d * g.ppm * Math.sin(state.angle);
+    if (Math.abs(pt.x - x) > 45 || pt.y < y - 85 || pt.y > y + 30) return;
+    state.drag = { type: "load", offset: pt.x - x };
+  }
+  canvas.focus({ preventScroll: true });
+  canvas.setPointerCapture(e.pointerId);
+  e.preventDefault();
+});
+canvas.addEventListener("pointermove", e => {
+  if (!state.drag || !state.geometry) return;
+  const pt = pointerPosition(e), g = state.geometry;
+  if (state.drag.type === "worker") setWorker((pt.x - state.drag.offset - g.x0) / g.ppm);
+  else setDistance((g.pivotX - (pt.x - state.drag.offset)) / (g.ppm * Math.cos(state.angle)));
+});
+function finishDrag() { state.drag = null; }
+canvas.addEventListener("pointerup", finishDrag);
+canvas.addEventListener("pointercancel", finishDrag);
+canvas.addEventListener("lostpointercapture", finishDrag);
+canvas.addEventListener("keydown", e => {
+  if (state.task !== 2 || !["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+  e.preventDefault();
+  const amount = e.shiftKey ? CONFIG.task2.workerLargeStep : CONFIG.task2.workerStep;
+  setWorker(state.workerX + (e.key === "ArrowRight" ? amount : -amount));
+});
+
+function solution1() {
+  const p = seesawPhysics(), t = CONFIG.task1, r = CONFIG.rod;
+  return tr(
+`TASK 1 — WORKED SOLUTION
+1. Choose the pivot as the point for moments.
+2. At the maximum left mass, the right ground reaction is zero.
+3. Principle of moments:
+   m_L × ${CONFIG.g} × ${fmt(state.distance)}
+   = ${fmt(t.fixedMass)} × ${CONFIG.g} × ${fmt(t.fixedMark - r.pivotMark)}.
+4. g cancels:
+   m_L = (${fmt(t.fixedMass)} × ${fmt(t.fixedMark - r.pivotMark)}) / ${fmt(state.distance)}
+       = ${unit(p.maximum, "kg")}.
+5. The rod's weight passes through the pivot, so its moment is zero.
+6. Increasing m_L beyond this value gives an anticlockwise loading moment and the left end tips down.
+At exact balance, releasing the rod from horizontal leaves it horizontal; another permitted angle also remains unchanged (ideal neutral equilibrium).`,
+`任務 1 — 完整解答
+1. 選擇支點為取矩點。
+2. 左方質量達最大值時，右端地面反作用力為零。
+3. 力矩原理：
+   m_L × ${CONFIG.g} × ${fmt(state.distance)}
+   = ${fmt(t.fixedMass)} × ${CONFIG.g} × ${fmt(t.fixedMark - r.pivotMark)}。
+4. g 可約去：
+   m_L = (${fmt(t.fixedMass)} × ${fmt(t.fixedMark - r.pivotMark)}) / ${fmt(state.distance)}
+       = ${unit(p.maximum, "kg")}。
+5. 桿重通過支點，所以其力矩為零。
+6. m_L 超過此值時，負載合力矩為逆時針，左端向下翻倒。
+恰好平衡時，從水平放開會保持水平；在其他容許角度放開也會保持該角度（理想隨遇平衡）。`
+  );
+}
+function solution2() {
+  const t = CONFIG.task2, z = safeZone(), p = platformPhysics();
+  const midpoint = (t.cableA + t.cableB) / 2;
+  const rightEq = `${fmt(t.Tmax)} × ${fmt(p.D)} = ${fmt(p.W)} × (x − ${fmt(t.cableA)})` +
+    (state.platformMass > 0 ? ` + ${fmt(p.Wr)} × ${fmt(centre() - t.cableA)}` : "");
+  const leftEq = `${fmt(t.Tmax)} × ${fmt(p.D)} = ${fmt(p.W)} × (${fmt(t.cableB)} − x)` +
+    (state.platformMass > 0 ? ` + ${fmt(p.Wr)} × ${fmt(t.cableB - centre())}` : "");
+  const direction = z.direction === "B" ? tr("right, towards B", "右方，向 B")
+    : z.direction === "A" ? tr("left, towards A", "左方，向 A")
+    : tr("equally on either side", "兩側相同");
+  const end = z.exists
+    ? tr(
+      `Actual safe interval, after checking 0 ≤ T_A,T_B ≤ T_max and 0 ≤ x ≤ L:
+${fmt(z.min)} ≤ x ≤ ${fmt(z.max)} m.
+Maximum safe distance from the platform centre = ${unit(z.maximum, "m")}, ${direction}.`,
+      `檢查 0 ≤ T_A,T_B ≤ T_max 和 0 ≤ x ≤ L 後的實際安全範圍：
+${fmt(z.min)} ≤ x ≤ ${fmt(z.max)} m。
+離平台中心的最大安全距離 = ${unit(z.maximum, "m")}，${direction}。`
+    )
+    : tr("No safe position exists: the cable constraints cannot both be met.", "沒有安全位置：兩條纜索的限制不能同時滿足。");
+  return tr(
+`TASK 2 — WORKED SOLUTION
+1. Forces: upward T_A and T_B; downward worker weight W${state.platformMass > 0 ? " and platform weight W_r" : ""}.
+   W = ${fmt(t.workerMass)} × ${CONFIG.g} = ${unit(p.W, "N")}.
+   W_r = ${fmt(state.platformMass)} × ${CONFIG.g} = ${unit(p.Wr, "N")}.
+2. Vertical equilibrium: T_A + T_B = W + W_r.
+3. Moments about A:
+   T_B × ${fmt(p.D)} = W(x − ${fmt(t.cableA)}) + W_r(${fmt(centre())} − ${fmt(t.cableA)}).
+4. Right overload boundary, T_B = T_max:
+   ${rightEq}
+   x = ${unit(z.rightOverloadMark, "m")} mark.
+   Distance from centre = ${unit(Math.abs(z.rightOverloadMark - centre()), "m")}.
+5. Left overload boundary, T_A = T_max; take moments about B:
+   ${leftEq}
+   x = ${unit(z.leftOverloadMark, "m")} mark.
+   Distance from centre = ${unit(Math.abs(z.leftOverloadMark - centre()), "m")}.
+6. ${end}
+7. Midpoint AB is ${unit(midpoint, "m")} mark; platform centre is ${unit(centre(), "m")} mark.
+   For a light platform, the unclipped safe interval is symmetric about midpoint AB.
+   With platform weight, the interval can shift; never assume symmetry about the platform centre.
+Boundary equations in steps 4–5 must still be checked against cable slack and platform-end constraints.`,
+`任務 2 — 完整解答
+1. 力：向上的 T_A、T_B；向下的工人重量 W${state.platformMass > 0 ? "及平台重量 W_r" : ""}。
+   W = ${fmt(t.workerMass)} × ${CONFIG.g} = ${unit(p.W, "N")}。
+   W_r = ${fmt(state.platformMass)} × ${CONFIG.g} = ${unit(p.Wr, "N")}。
+2. 垂直平衡：T_A + T_B = W + W_r。
+3. 對 A 取力矩：
+   T_B × ${fmt(p.D)} = W(x − ${fmt(t.cableA)}) + W_r(${fmt(centre())} − ${fmt(t.cableA)})。
+4. 右方超載臨界點，T_B = T_max：
+   ${rightEq}
+   x = ${unit(z.rightOverloadMark, "m")} 刻度。
+   離中心距離 = ${unit(Math.abs(z.rightOverloadMark - centre()), "m")}。
+5. 左方超載臨界點，T_A = T_max；對 B 取力矩：
+   ${leftEq}
+   x = ${unit(z.leftOverloadMark, "m")} 刻度。
+   離中心距離 = ${unit(Math.abs(z.leftOverloadMark - centre()), "m")}。
+6. ${end}
+7. AB 中點為 ${unit(midpoint, "m")} 刻度；平台中心為 ${unit(centre(), "m")} 刻度。
+   輕平台的未截限安全範圍以 AB 中點對稱。
+   有平台重量時範圍可偏移；不可假設以平台中心對稱。
+步驟 4–5 的臨界方程仍須檢查纜索鬆弛和平台端點限制。`
+  );
+}
+function assembleAIPrompt() {
+  captureForm();
+  const selected = [
+    ["forceTA", "T_A"], ["forceTB", "T_B"], ["forceW", tr("worker weight", "工人重量")],
+    ["forceWr", tr("platform weight", "平台重量")], ["forceN", tr("ground normal force", "地面法向力")],
+    ["forceF", tr("friction", "摩擦力")], ["forceP", tr("centre pivot reaction", "中心支點反作用力")]
+  ].filter(([id]) => checked(id)).map(([, label]) => label).join(", ");
+  const steps = [
+    `${value("work1")}\n${selected}`,
+    `${value("work2")}\n${tr("Cable", "纜索")}: ${value("limitCable")}`,
+    `${value("work3")}\n${tr("Pivot", "取矩點")}: ${value("rightPivot")}`,
+    `${value("work4")}\n${CONFIG.task2.Tmax} × ${value("rightArm")} = ${value("rightWeight")} × (x − ${CONFIG.task2.cableA})${state.platformMass > 0 ? ` + ${value("rightRodWeight")} × ${value("rightRodArm")}` : ""}`,
+    `${value("work5")}\nx = ${value("rightX")} m; ${tr("distance", "距離")} = ${value("rightDistance")} m`,
+    `${value("work6")}\n${tr("Cable", "纜索")}: ${value("leftCable")}; ${tr("pivot", "取矩點")}: ${value("leftPivot")}; x = ${value("leftX")} m; ${tr("distance", "距離")} = ${value("leftDistance")} m`,
+    `${value("work7")}\n${tr("Maximum distance", "最大距離")} = ${value("finalDistance")} m; ${tr("direction", "方向")} = ${value("finalDirection")}`
+  ];
+  const rule = tr(
+`You are a patient HKDSE Physics tutor. Check my working step by step.
+RULES: Do NOT give me the final answer or a full solution. Mark each step ✅ or ❌. For the FIRST wrong step only, explain the mistake using a hint or guiding question. Check: physics principle, direction of moments, distances measured from the chosen pivot, units (N, m, N m), and significant figures. Reply in English.
+PROBLEM:`,
+`你是一位耐心的 HKDSE 物理導師。請逐步檢查我的計算過程。
+規則：不要給出最終答案或完整解答。每步標示 ✅ 或 ❌。只對第一個錯誤步驟，以提示或引導問題解釋錯誤。檢查：物理原理、力矩方向、由所選取矩點量度的距離、單位（N、m、N m）及有效數字。請用繁體中文回覆。
+題目：`
+  );
+  return `${rule} ${question2()} g = ${CONFIG.g} N kg⁻¹.
+${tr("MY WORKING:", "我的計算過程：")}
+${steps.map((s, i) => `${tr("Step", "步驟")} ${i + 1}: ${s}`).join("\n\n")}`;
+}
+function resultsText() {
+  captureForm();
+  return [
+    "Moments & Equilibrium | 力矩與平衡",
+    `${tr("Student", "學生")}: ${$("studentName").value}`,
+    `${tr("Class", "班別")}: ${$("studentClass").value}`,
+    `${tr("Exported", "匯出時間")}: ${new Date().toLocaleString()}`,
+    `g = ${CONFIG.g} N kg⁻¹; ${tr("mode", "模式")}: ${CONFIG.mode}`,
+    "",
+    tr("TASK 1 — NO AI", "任務 1 — 禁用 AI"),
+    question1(),
+    `${tr("Answer", "答案")}: ${value("predictionAnswer")} kg`,
+    `${tr("Accepted within tolerance", "在容許誤差內")}: ${state.predictionCorrect ? "✓" : "✗"}`,
+    `${tr("Current attempts / total attempts", "本題嘗試／總嘗試")}: ${state.attempts} / ${state.allPredictionAttempts}`,
+    `${tr("Challenges started", "已開始挑戰")}: ${state.challenges}`,
+    `${tr("No-AI declaration", "沒有使用 AI 聲明")}: ${checked("noAI") ? tr("Yes", "是") : tr("No", "否")}`,
+    `${tr("Working", "計算過程")}: ${value("predictionWork")}`,
+    `${tr("Explanation", "解釋")}: ${value("explanation")}`,
+    `${tr("Active time", "有效操作時間")}: ${Math.round(state.time[0] / 1000)} s`,
+    "",
+    tr("TASK 2 — AI STEP-CHECK ALLOWED", "任務 2 — 可用 AI 檢查步驟"),
+    question2(),
+    ...Array.from({ length: 7 }, (_, i) =>
+      `${tr("Step", "步驟")} ${i + 1}: ${state.stepResults[i] ? state.stepResults[i].ok ? "✅" : "❌" : tr("Not checked", "未檢查")}; ${tr("attempts", "嘗試")}: ${state.stepAttempts[i]}\n${value("work" + (i + 1))}`
+    ),
+    `${tr("Right position / distance", "右方位置／距離")}: ${value("rightX")} m / ${value("rightDistance")} m`,
+    `${tr("Left position / distance", "左方位置／距離")}: ${value("leftX")} m / ${value("leftDistance")} m`,
+    `${tr("Conclusion", "結論")}: ${value("finalDistance")} m; ${value("finalDirection")}`,
+    `${tr("Active time", "有效操作時間")}: ${Math.round(state.time[1] / 1000)} s`,
+    "",
+    tr("The built-in checker checks structured inputs; it does not semantically mark free-text reasoning.",
+      "內置檢查器檢查結構化輸入，不會以語意判分文字推理。"),
+    tr("No-AI declaration is a student declaration, not electronic proof.", "沒有使用 AI 聲明是學生聲明，並非電子證明。")
+  ].join("\n");
+}
+
+async function copyOutput(text, title) {
+  let copied = false;
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      copied = true;
+    }
+  } catch (_) {}
+  state.returnFocus = document.activeElement;
+  $("copyTitle").textContent = title;
+  $("copyText").value = text;
+  $("copyMessage").textContent = copied
+    ? tr("✅ Copied. The complete text is also available below.", "✅ 已複製。完整文字亦顯示如下。")
+    : tr("Clipboard access is unavailable. Select the text below and copy it using Ctrl/Cmd+C or the iPad copy menu.",
+      "無法使用剪貼簿。請選取下方文字，使用 Ctrl/Cmd+C 或 iPad 複製選單。");
+  $("selectCopy").textContent = tr("Select all text", "選取所有文字");
+  $("copyModal").classList.remove("hidden");
+  $("copyText").focus(); $("copyText").select();
+}
+function invalidateSteps() {
+  state.stepResults.fill(null);
+  state.finalSubmitted = false;
+  state.safeRequested = false;
+}
+function requiredShape(candidate, example, path = "CONFIG") {
+  if (Array.isArray(example)) {
+    if (!Array.isArray(candidate) || !candidate.length) throw Error(`${path}: a non-empty array is required.`);
+    candidate.forEach(n => { if (!Number.isFinite(n)) throw Error(`${path}: numeric array required.`); });
+  } else if (example && typeof example === "object") {
+    if (!candidate || typeof candidate !== "object" || Array.isArray(candidate)) throw Error(`${path}: object required.`);
+    for (const key of Object.keys(example)) requiredShape(candidate[key], example[key], `${path}.${key}`);
+  } else if (typeof candidate !== typeof example || (typeof candidate === "number" && !Number.isFinite(candidate))) {
+    throw Error(`${path}: expected ${typeof example}.`);
+  }
+}
+function validateConfig(c) {
+  requiredShape(c, schema);
+  const assert = (ok, message) => { if (!ok) throw Error(message); };
+  const multiple = (n, scale) => Math.abs(n * scale - Math.round(n * scale)) < 1e-6;
+  assert(["en", "zh"].includes(c.language), 'language must be "en" or "zh".');
+  assert(["assessment", "sandbox"].includes(c.mode), 'mode must be "assessment" or "sandbox".');
+  assert(c.g > 0 && c.gravityChoices.every(g => g > 0), "Gravity must be positive.");
+  assert(c.grading.relativeTolerance > 0 && c.grading.relativeTolerance < .2, "Invalid grading tolerance.");
+  assert(c.grading.absoluteTolerance >= 0, "Absolute tolerance must be non-negative.");
+  assert(Number.isInteger(c.grading.significantFigures) && c.grading.significantFigures >= 1 &&
+    c.grading.significantFigures <= 10, "Significant figures must be an integer from 1 to 10.");
+  const r = c.rod, a = c.task1, b = c.task2;
+  assert(r.length > 0 && r.length <= 10, "Rod length must be positive and at most 10 m.");
+  assert(Math.abs(r.pivotMark - r.length / 2) < 1e-9, "Uniform-rod zero-moment model requires the pivot at the rod centre.");
+  assert(r.fulcrumHeight > 0 && r.fulcrumHeight < r.length / 2, "Fulcrum height must be less than half the rod length.");
+  assert(r.minorTick > 0 && r.labelTick >= r.minorTick && r.length / r.minorTick <= 200,
+    "Invalid ruler spacing; use at most 200 ticks.");
+  assert(multiple(r.labelTick / r.minorTick, 1), "Label spacing must be a multiple of minor-tick spacing.");
+  assert(a.fixedMass >= 0 && a.rodMass >= 0 && a.fixedMark > r.pivotMark && a.fixedMark <= r.length,
+    "Fixed load must be non-negative and to the right of the pivot.");
+  assert(a.massMin >= 0 && a.massMax > a.massMin && a.massStep > 0 && a.massButtonStep > 0,
+    "Invalid left-mass range.");
+  assert(a.distanceMin > 0 && a.distanceMax <= r.pivotMark &&
+    a.distanceMax >= a.distanceMin && a.distanceStep > 0,
+    "Invalid left-distance range.");
+  assert(a.leftDistance >= a.distanceMin && a.leftDistance <= a.distanceMax, "Default left distance is outside its range.");
+  assert(a.challengeDistances.every(d => d >= a.distanceMin && d <= a.distanceMax),
+    "Challenge distances must lie in the permitted distance range.");
+  assert([r.pivotMark, a.fixedMark, a.leftDistance, a.distanceMin, a.distanceMax, a.distanceStep,
+    ...a.challengeDistances].every(n => multiple(n, 100)),
+    "Task 1 distances must be whole centimetres for integer moment comparison.");
+  assert([a.fixedMass, a.massMin, a.massMax, a.massStep, a.massButtonStep].every(n => multiple(n, 1000)),
+    "Task 1 masses must be whole grams for integer moment comparison.");
+  assert(Number.isInteger(a.maxAttempts) && a.maxAttempts >= 1, "maxAttempts must be a positive integer.");
+  assert(b.cableA >= 0 && b.cableA < b.cableB && b.cableB <= r.length, "Cable marks must satisfy 0 ≤ A < B ≤ rod length.");
+  assert(b.Tmax > 0 && b.workerMass > 0 && b.rodMass >= 0, "Invalid cable capacity or masses.");
+  assert(b.warningFraction > 0 && b.warningFraction < 1, "Warning fraction must lie between 0 and 1.");
+  assert(b.workerStart >= 0 && b.workerStart <= r.length && b.workerStep > 0 && b.workerLargeStep > 0,
+    "Invalid worker position or steps.");
+  assert(b.rodMassMin >= 0 && b.rodMassMax >= b.rodMassMin && b.rodMassStep > 0, "Invalid platform-mass slider.");
+  assert(c.animation.tippingSeconds > 0 && c.animation.holdSeconds >= 0 &&
+    c.animation.shakeAmplitude >= 0 && c.animation.shakeFrequency >= 0, "Invalid animation settings.");
+  assert(c.drawing.minimumCanvasWidth >= 600 && c.drawing.maximumArrowLength > 0 &&
+    c.drawing.desiredPixelsPerNewton > 0 && c.drawing.momentArcRadius > 0, "Invalid drawing settings.");
+  for (const colour of Object.values(c.drawing.colours))
+    assert(/^#[0-9a-f]{6}$/i.test(colour), "Drawing colours must use six-digit hexadecimal notation.");
+}
+function teacherQuickControls() {
+  $("quickControls").innerHTML = `
+    <div class="row">
+      <label>g
+        <select id="teacherG" aria-label="${tr("Gravity", "重力場強度")}">
+          ${CONFIG.gravityChoices.map(g => `<option value="${g}" ${Math.abs(CONFIG.g - g) < 1e-9 ? "selected" : ""}>${g} N kg⁻¹</option>`).join("")}
+        </select>
+      </label>
+      <label>${tr("Mode", "模式")}
+        <select id="teacherMode" aria-label="${tr("Mode", "模式")}">
+          <option value="assessment" ${CONFIG.mode === "assessment" ? "selected" : ""}>${tr("Assessment", "評估")}</option>
+          <option value="sandbox" ${CONFIG.mode === "sandbox" ? "selected" : ""}>${tr("Sandbox", "沙盒")}</option>
+        </select>
+      </label>
+      <label>${tr("Language", "語言")}
+        <select id="teacherLanguage" aria-label="${tr("Language", "語言")}">
+          <option value="en" ${CONFIG.language === "en" ? "selected" : ""}>English</option>
+          <option value="zh" ${CONFIG.language === "zh" ? "selected" : ""}>繁體中文</option>
+        </select>
+      </label>
+    </div>
+    <div class="row">
+      <label class="check"><input id="teacherReadouts" type="checkbox" ${CONFIG.showReadouts ? "checked" : ""}>
+        ${tr("Show readouts", "顯示讀數")}</label>
+      <label class="check"><input id="teacherSafe" type="checkbox" ${state.teacherSafeOverride ? "checked" : ""}>
+        ${tr("Teacher safe-zone override", "教師直接顯示安全範圍")}</label>
+    </div>
+    <p class="note">${tr(
+      "JSON edits apply only when you press Apply CONFIG. PIN is a classroom convenience, not secure access control. Changing physics invalidates previous marking, but preserves student working.",
+      "JSON 編輯須按「套用 CONFIG」才生效。PIN 只供課堂管理，並非安全存取控制。改變物理設定會使原有判分失效，但保留學生計算過程。"
+    )}</p>`;
+}
+function prepareTeacher() {
+  $("teacherTitle").textContent = tr("⚙ Teacher panel", "⚙ 教師面板");
+  $("pinLabel").textContent = tr("Teacher PIN", "教師 PIN");
+  $("unlockTeacher").textContent = tr("Unlock", "解鎖");
+  $("configLabel").textContent = tr("Complete CONFIG — edit any parameter", "完整 CONFIG — 可編輯所有參數");
+  $("applyConfig").textContent = tr("Apply CONFIG", "套用 CONFIG");
+  $("revealSolutions").textContent = tr("Reveal worked solutions", "顯示完整解答");
+  $("exportResults").textContent = tr("Export results", "匯出結果");
+  $("runTests").textContent = tr("Run physics acceptance tests", "執行物理驗收測試");
+  $("configEditor").value = JSON.stringify(CONFIG, null, 2);
+  teacherQuickControls();
+}
+function openTeacher() {
+  state.returnFocus = document.activeElement;
+  prepareTeacher();
+  const locked = CONFIG.teacherPIN !== "" && !state.teacherUnlocked;
+  $("pinSection").classList.toggle("hidden", !locked);
+  $("teacherContent").classList.toggle("hidden", locked);
+  $("teacherModal").classList.remove("hidden");
+  (locked ? $("pinInput") : $("closeTeacher")).focus();
+}
+function applyConfig() {
+  try {
+    captureForm();
+    const next = JSON.parse($("configEditor").value);
+    validateConfig(next);
+    CONFIG = next;
+    state.distance = CONFIG.task1.leftDistance;
+    state.mass = clamp(state.mass, CONFIG.task1.massMin, CONFIG.task1.massMax);
+    state.workerX = clamp(CONFIG.task2.workerStart, 0, CONFIG.rod.length);
+    state.platformMass = CONFIG.task2.rodMass;
+    state.rodWeight = CONFIG.task1.rodWeightInitiallyOn;
+    state.predictionSubmitted = false;
+    state.predictionCorrect = false;
+    state.attempts = 0;
+    state.feedback1 = "";
+    state.holdUntil = 0;
+    state.safeRequested = CONFIG.showSafeZone;
+    state.teacherSafeOverride = CONFIG.showSafeZone;
+    invalidateSteps();
+    state.safeRequested = CONFIG.showSafeZone;
+    canvas.style.minWidth = `${CONFIG.drawing.minimumCanvasWidth}px`;
+    state.width = 0;
+    beginTip();
+    renderUI();
+    prepareTeacher();
+    $("teacherFeedback").textContent = tr("✅ CONFIG applied. Previous marking has been reset; student working is preserved.", "✅ 已套用 CONFIG。判分已重設，學生計算過程已保留。");
+    if (!$("workedSolutions").classList.contains("hidden"))
+      $("workedSolutions").textContent = solution1() + "\n\n" + solution2();
+  } catch (error) {
+    $("teacherFeedback").textContent = "❌ " + error.message;
+  }
+}
+
+/* Fixed regression fixtures verify the requested default curriculum scenario.
+   Student answers and solutions never use these expected values. */
+function acceptanceTests() {
+  const c = JSON.parse(JSON.stringify(schema));
+  c.g = 9.81;
+  c.rod.length = 2; c.rod.pivotMark = 1; c.rod.fulcrumHeight = .15;
+  c.task1.fixedMass = 2; c.task1.fixedMark = 1.5;
+  c.task2.cableA = .4; c.task2.cableB = 1.8; c.task2.Tmax = 500; c.task2.workerMass = 60;
+  const tests = [];
+  const test = (name, actual, expected, tolerance = 1e-9) => {
+    tests.push({ name, actual, expected, pass: Math.abs(actual - expected) <= tolerance });
+  };
+  test("Task 1: d_L = 0.40, maximum mass", seesawPhysics(c, 0, .4, false).maximum, 2.5);
+  test("Task 1: d_L = 0.25, maximum mass", seesawPhysics(c, 0, .25, false).maximum, 4);
+  test("Task 1: d_L = 1.00, maximum mass", seesawPhysics(c, 0, 1, false).maximum, 1);
+  test("Task 1: 2.50 kg balances", seesawPhysics(c, 2.5, .4, false).sign, 0);
+  test("Task 1: 2.50 kg reaction", seesawPhysics(c, 2.5, .4, false).R, 0);
+  test("Task 1: 2.51 kg tips anticlockwise", seesawPhysics(c, 2.51, .4, false).sign, 1);
+  test("Task 1: zero left mass reaction", seesawPhysics(c, 0, .4, false).R, 9.81);
+  let p = platformPhysics(c, 1, 0), z = safeZone(c, 0);
+  test("Task 2: worker weight", p.W, 588.6);
+  test("Task 2: centre T_A, 3 s.f.", Number(p.TA.toPrecision(3)), 336);
+  test("Task 2: centre T_B, 3 s.f.", Number(p.TB.toPrecision(3)), 252);
+  test("Task 2: right limit, 3 decimal places", Number(z.max.toFixed(3)), 1.589);
+  test("Task 2: left limit, 3 decimal places", Number(z.min.toFixed(3)), .611);
+  test("Task 2: maximum distance, 3 s.f.", Number(z.maximum.toPrecision(3)), .589);
+  test("Task 2: right limiting tension", platformPhysics(c, z.max, 0).TB, 500);
+  test("Task 2: left limiting tension", platformPhysics(c, z.min, 0).TA, 500);
+  p = platformPhysics(c, .3, 0);
+  test("Task 2: 0.30 m has slack B", p.slackB ? 1 : 0, 1);
+  test("Task 2: 0.30 m also overloads A", p.overloadA ? 1 : 0, 1);
+  c.g = 10; z = safeZone(c, 0);
+  test("Task 2: g=10, worker weight", platformPhysics(c, 1, 0).W, 600);
+  test("Task 2: g=10, right limit", Number(z.max.toFixed(3)), 1.567);
+  test("Task 2: g=10, left limit", Number(z.min.toFixed(3)), .633);
+  z = safeZone(c, 10);
+  test("Task 2: 10 kg platform, left limit", Number(z.min.toFixed(3)), .767);
+  test("Task 2: 10 kg platform, right limit", Number(z.max.toFixed(3)), 1.467);
+  return tests;
+}
+
+document.addEventListener("click", e => {
+  const button = e.target.closest("button");
+  if (!button) return;
+  switch (button.id) {
+    case "tab1": state.task = 1; updateUI(); return;
+    case "tab2": state.task = 2; updateUI(); return;
+    case "languageButton":
+      CONFIG.language = CONFIG.language === "en" ? "zh" : "en"; renderUI(); return;
+    case "teacherButton": openTeacher(); return;
+    case "closeTeacher":
+      $("teacherModal").classList.add("hidden");
+      $("teacherButton").focus(); return;
+    case "unlockTeacher":
+      if ($("pinInput").value === CONFIG.teacherPIN) {
+        state.teacherUnlocked = true;
+        $("pinSection").classList.add("hidden");
+        $("teacherContent").classList.remove("hidden");
+        $("configEditor").focus();
+      } else $("pinFeedback").textContent = tr("❌ Incorrect PIN.", "❌ PIN 不正確。");
+      return;
+    case "applyConfig": applyConfig(); return;
+    case "revealSolutions":
+      $("workedSolutions").textContent = solution1() + "\n\n" + solution2();
+      $("workedSolutions").classList.remove("hidden"); return;
+    case "exportResults": copyOutput(resultsText(), tr("Results for Classroom / Teams", "Classroom／Teams 結果文字")); return;
+    case "runTests": {
+      const tests = acceptanceTests();
+      const passed = tests.filter(t => t.pass).length;
+      $("workedSolutions").textContent = `${passed}/${tests.length} ${tr("tests passed", "測試通過")}\n\n` +
+        tests.map(t => `${t.pass ? "✅" : "❌"} ${t.name}: ${t.actual}`).join("\n");
+      $("workedSolutions").classList.remove("hidden"); return;
+    }
+    case "closeCopy":
+      $("copyModal").classList.add("hidden");
+      if (state.returnFocus && state.returnFocus.isConnected) state.returnFocus.focus();
+      return;
+    case "selectCopy": $("copyText").focus(); $("copyText").select(); return;
+  }
+  switch (button.dataset.action) {
+    case "predict": submitPrediction(); break;
+    case "mass-minus": setMass(state.mass - CONFIG.task1.massButtonStep); break;
+    case "mass-plus": setMass(state.mass + CONFIG.task1.massButtonStep); break;
+    case "release":
+      if (!canExplore1()) break;
+      state.angle = 0; state.motion = null;
+      state.holdUntil = performance.now() + CONFIG.animation.holdSeconds * 1000;
+      break;
+    case "challenge": challenge(); break;
+    case "solution1":
+      if (state.attempts >= CONFIG.task1.maxAttempts) {
+        $("studentSolutionText").textContent = solution1();
+        $("studentSolutionText").classList.remove("hidden");
+      }
+      break;
+    case "reset-worker": setWorker(CONFIG.task2.workerStart); break;
+    case "check-step": checkStep(Number(button.dataset.step)); break;
+    case "copy-ai": copyOutput(assembleAIPrompt(), tr("Prompt for AI step checker", "AI 步驟檢查提示")); break;
+  }
+});
+document.addEventListener("input", e => {
+  switch (e.target.id) {
+    case "massRange": setMass(Number(e.target.value)); break;
+    case "distanceRange": setDistance(Number(e.target.value)); break;
+    case "workerRange": setWorker(Number(e.target.value)); break;
+    case "platformMass":
+      captureForm();
+      state.platformMass = Number(e.target.value);
+      invalidateSteps();
+      renderUI();
+      break;
+  }
+});
+document.addEventListener("change", e => {
+  switch (e.target.id) {
+    case "massNumber":
+      if (e.target.value.trim() !== "") setMass(Number(e.target.value));
+      updateUI(); break;
+    case "rodWeight": state.rodWeight = e.target.checked; updateUI(); break;
+    case "safeToggle": state.safeRequested = e.target.checked; updateUI(); break;
+    case "teacherG":
+      CONFIG.g = Number(e.target.value);
+      state.predictionCorrect = false;
+      invalidateSteps();
+      renderUI();
+      $("configEditor").value = JSON.stringify(CONFIG, null, 2);
+      $("teacherFeedback").textContent = tr("Gravity changed. Recheck each step using the new g.", "g 已改變。請用新的 g 重新檢查各步。");
+      if (!$("workedSolutions").classList.contains("hidden")) $("workedSolutions").textContent = solution1() + "\n\n" + solution2();
+      break;
+    case "teacherMode":
+      CONFIG.mode = e.target.value;
+      renderUI();
+      $("configEditor").value = JSON.stringify(CONFIG, null, 2);
+      break;
+    case "teacherLanguage":
+      CONFIG.language = e.target.value;
+      renderUI(); prepareTeacher();
+      if (!$("workedSolutions").classList.contains("hidden")) $("workedSolutions").textContent = solution1() + "\n\n" + solution2();
+      break;
+    case "teacherReadouts":
+      CONFIG.showReadouts = e.target.checked;
+      updateUI();
+      $("configEditor").value = JSON.stringify(CONFIG, null, 2);
+      break;
+    case "teacherSafe":
+      state.teacherSafeOverride = e.target.checked;
+      CONFIG.showSafeZone = e.target.checked;
+      updateUI();
+      $("configEditor").value = JSON.stringify(CONFIG, null, 2);
+      break;
+  }
+});
+document.addEventListener("keydown", e => {
+  const modal = !$("copyModal").classList.contains("hidden") ? $("copyModal")
+    : !$("teacherModal").classList.contains("hidden") ? $("teacherModal") : null;
+  if (!modal) return;
+  if (e.key === "Escape") {
+    if (modal.id === "copyModal") $("closeCopy").click();
+    else $("closeTeacher").click();
+  }
+  if (e.key === "Tab") {
+    const items = [...modal.querySelectorAll("button, input, select, textarea, [tabindex]")]
+      .filter(el => !el.disabled && el.getClientRects().length > 0);
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  }
+});
+$("pinInput").addEventListener("keydown", e => {
+  if (e.key === "Enter") $("unlockTeacher").click();
+});
+window.addEventListener("blur", finishDrag);
+document.addEventListener("visibilitychange", () => { state.lastTime = performance.now(); });
+
+validateConfig(CONFIG);
+const initialTests = acceptanceTests();
+console.assert(initialTests.every(t => t.pass), "Physics acceptance tests failed", initialTests);
+canvas.style.minWidth = `${CONFIG.drawing.minimumCanvasWidth}px`;
+renderUI();
+requestAnimationFrame(frame);
 </script>
 </body>
 </html>
